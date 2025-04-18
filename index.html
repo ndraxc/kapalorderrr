@@ -1,0 +1,1530 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <!-- Tambahkan script jsPDF di bagian head -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mesen Barang Electra Kapal</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif; /* Ubah ke Poppins */
+            margin: 0;
+            padding: 0;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .print-btn {
+    background: #e74c3c;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    font-size: 14px;
+    padding: 8px 15px;
+    border-radius: 20px;
+}
+
+.dark-mode .print-btn {
+    background: #c0392b;
+}
+
+.print-btn:hover {
+    background: #c0392b;
+}
+
+.dark-mode .print-btn:hover {
+    background: #e74c3c;
+}
+
+.print-icon {
+    margin-right: 8px;
+    font-size: 16px;
+}
+        /* Dark mode overlay untuk animasi */
+        .dark-mode-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #2e2e2e;
+            z-index: 999;
+            clip-path: circle(0% at 50px 50px);
+            pointer-events: none;
+            transition: clip-path 0.8s ease-in-out;
+        }
+
+        body.dark-mode .dark-mode-overlay {
+            clip-path: circle(150% at 50px 50px);
+        }
+
+        /* Posisi toggle */
+        .dark-mode-toggle {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #333;
+            font-size: 20px;
+            cursor: pointer;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .dark-mode .dark-mode-toggle {
+            color: #e0e0e0;
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .dark-mode-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        /* Untuk mobile */
+        @media (max-width: 600px) {
+            .dark-mode-toggle {
+                top: 15px;
+                left: 15px;
+                width: 36px;
+                height: 36px;
+                font-size: 15px;
+            }
+            
+            .dark-mode-overlay {
+                clip-path: circle(0% at 35px 35px);
+            }
+            
+            body.dark-mode .dark-mode-overlay {
+                clip-path: circle(150% at 35px 35px);
+            }
+        }
+        
+        body {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+            min-height: 100vh;
+            position: relative;
+            padding-bottom: 100px;
+        }
+        
+        body.dark-mode {
+            background-color: #121212;
+            color: #e0e0e0;
+        }
+        
+        h1 {
+            color: #128C7E;
+            text-align: center;
+            margin-bottom: 5px;
+        }
+        
+        .dark-mode h1 {
+            color: #25D366;
+        }
+        
+        .search-container {
+           position: sticky;
+           top: 0;
+           z-index: 100;
+           background: #f5f5f5;
+           padding: 15px;
+           margin-bottom: 0;
+           display: flex;
+           align-items: center;
+        }
+        
+        .dark-mode .search-container {
+            background: #121212;
+        }
+        
+        .search-wrapper {
+            position: relative;
+            width: 100%;
+        }
+        
+        #search {
+            width: 100%;
+            padding: 10px 35px 10px 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            background-color: white;
+        }
+        
+        .dark-mode #search {
+            background-color: #333;
+            color: #e0e0e0;
+            border-color: #444;
+        }
+        
+        .clear-search {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #999;
+            font-size: 18px;
+            cursor: pointer;
+            display: none;
+        }
+        
+        .dark-mode .clear-search {
+            color: #777;
+        }
+        
+        .clear-search:hover {
+            color: #666;
+        }
+        
+        .dark-mode .clear-search:hover {
+            color: #999;
+        }
+        
+        .toggle-view {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 15px;
+            gap: 10px;
+            position: sticky;
+            top: 90px;
+            background: #f5f5f5;
+            padding: 10px 0;
+            z-index: 90;
+        }
+        
+        .dark-mode .toggle-view {
+            background: #121212;
+        }
+        
+        .toggle-btn {
+            background: #25D366;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        
+        .toggle-btn.active {
+            background: #128C7E;
+        }
+        
+        .dark-mode .toggle-btn {
+            background: #1e8449;
+        }
+        
+        .dark-mode .toggle-btn.active {
+            background: #25D366;
+        }
+        
+        .products-container {
+            max-height: calc(100vh - 150px);
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        #products-view {
+            position: relative;
+            margin-bottom: 20px;
+        }
+        
+        @media (max-width: 600px) {
+            body {
+                padding: 10px 15px; /* Kurangi padding */
+                padding-bottom: 90px;
+            }
+            
+            .toggle-view {
+                top: 50px; /* Sesuaikan untuk mobile */
+            }
+            
+            h1 {
+                color: #128C7E;
+                text-align: center;
+                font-size: 28px;
+                margin-bottom: 5px;
+                margin-top: 0; /* Tambahkan ini untuk mengurangi margin atas judul */
+            }
+        }
+        
+      
+        .product-card {
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .dark-mode .product-card {
+            background: #1e1e1e;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        }
+        
+        .product-name {
+            font-weight: bold;
+            color: #333;
+            flex-grow: 1;
+        }
+        
+        .dark-mode .product-name {
+            color: #e0e0e0;
+        }
+        
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            min-width: 140px;
+        }
+        
+        .quantity-btn {
+            background: #25D366;
+            color: white;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            font-size: 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .dark-mode .quantity-btn {
+            background: #1e8449;
+        }
+        
+        .quantity-input {
+            width: 50px;
+            text-align: center;
+            margin: 0 5px;
+            padding: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        
+        .dark-mode .quantity-input {
+            background-color: #333;
+            color: #e0e0e0;
+            border-color: #444;
+        }
+        
+        .order-summary {
+            background: white;
+            top: 240px;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            display: none;
+            position: relative;
+            min-height: calc(100vh - 250px);
+        }
+        
+        .dark-mode .order-summary {
+            background: #1e1e1e;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        }
+        
+        .order-items-container {
+            max-height: calc(100vh - 350px);
+            overflow-y: auto;
+            margin-bottom: 15px;
+            min-height: 100px;
+        }
+        
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .dark-mode .order-item {
+            border-bottom-color: #444;
+        }
+        
+        .order-item-name {
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+        }
+        
+        .item-number {
+            margin-right: 8px;
+            color: #666;
+            min-width: 20px;
+        }
+        
+        .dark-mode .item-number {
+            color: #999;
+        }
+        
+        .order-item-control {
+            display: flex;
+            align-items: center;
+            min-width: 120px;
+            justify-content: flex-end;
+        }
+        
+        .order-quantity-input {
+            width: 40px;
+            text-align: center;
+            margin: 0 5px;
+            padding: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        .dark-mode .order-quantity-input {
+            background-color: #333;
+            color: #e0e0e0;
+            border-color: #444;
+        }
+        
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 5px;
+            gap: 10px;
+            position: absolute;
+            bottom: 20px;
+            left: 3px;
+            right: 3px;
+        }
+
+        .button-group button {
+            flex: 1;
+            font-size: 14px;
+            padding: 8px 15px; /* Sesuaikan dengan tombol toggle */
+            border-radius: 20px; /* Sesuaikan dengan tombol toggle */
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .reset-btn {
+            background: #128C7E;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 3px;
+        }
+        
+        .dark-mode .reset-btn {
+            background: #0d6e5f;
+        }
+        
+        .reset-btn:hover {
+            background: #25D366;
+        }
+        
+        .send-btn {
+            background: #25D366;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .dark-mode .send-btn {
+            background: #1e8449;
+        }
+        
+        .send-btn:hover {
+            background: #128C7E;
+        }
+        
+        .whatsapp-icon {
+            margin-right: 8px;
+            font-size: 20px;
+        }
+        
+        .no-results {
+            text-align: center;
+            padding: 40px 20px;
+            color: #666;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            display: none;
+        }
+        
+        .dark-mode .no-results {
+            background: #1e1e1e;
+            color: #999;
+        }
+        
+        .no-results.show {
+            display: block;
+        }
+        
+        .empty-order {
+            text-align: center;
+            padding: 40px 20px;
+            color: #666;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+        }
+        
+        .dark-mode .empty-order {
+            color: #999;
+        }
+        
+        /* Modal Konfirmasi */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            top: 100px; 
+        }
+        
+        .dark-mode .modal-content {
+            background-color: #1e1e1e;
+            color: #e0e0e0;
+        }
+        
+        .modal-title {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        
+        .dark-mode .modal-title {
+            color: #e0e0e0;
+        }
+        
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+        
+        .modal-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        .modal-btn-confirm {
+            background-color: #128C7E;
+            color: white;
+        }
+        
+        .dark-mode .modal-btn-confirm {
+            background-color: #0d6e5f;
+        }
+        
+        .modal-btn-cancel {
+            background-color: #25D366;
+            color: white;
+        }
+        
+        .dark-mode .modal-btn-cancel {
+            background-color: #1e8449;
+        }
+        
+        /* Dark mode toggle */
+        .dark-mode-toggle {
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            z-index: 1000;
+            background: none;
+            border: none;
+            color: #333;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        
+        .dark-mode .dark-mode-toggle {
+            color: #e0e0e0;
+        }
+        
+        /* Tampilan Mobile */
+        @media (max-width: 600px) {
+            body {
+                padding: 15px;
+                padding-bottom: 90px;
+            }
+            
+            #products-view {
+                margin-top: -25px; /* Geser lebih kecil di mobile */
+            }
+            
+            .order-summary {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                margin: 0;
+                border-radius: 0;
+                box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+                max-height: 190vh; /* Tinggi maksimum lebih besar */
+                height: auto; /* Biarkan tinggi menyesuaikan konten */
+                /* Tambahkan properti baru: */
+                top: 210px; /* Pastikan tidak ada top yang mengganggu */
+                transform: none;
+            }
+            
+            .dark-mode .order-summary {
+                box-shadow: 0 -2px 10px rgba(0,0,0,0.3);
+            }
+            
+            .order-items-container {
+                margin-bottom: 10px; /* Lebih besar untuk mobile */
+            }
+            
+            .button-group {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 5px;
+            gap: 10px;
+            position: absolute;
+            bottom: 45px;
+            left: 30px;
+            right: 30px;
+        }
+
+        .button-group button {
+            flex: 1;
+            font-size: 14px;
+            padding: 8px 15px; /* Sesuaikan dengan tombol toggle */
+            border-radius: 20px; /* Sesuaikan dengan tombol toggle */
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+            
+            .dark-mode-toggle {
+                position: absolute;
+                top: 10px;
+                left: 10px;
+                font-size: 20px;
+            }
+        }
+        .reset-btn i {
+    margin-right: 5px;
+    font-size: 16px; /* Sesuaikan dengan whatsapp-icon */
+}
+.whatsapp-icon {
+    margin-right: 8px;
+    font-size: 16px; /* Sedikit diperkecil agar sesuai */
+}
+        
+        .order-summary.show {
+            display: block;
+        }
+        
+        .order-items-container {
+            max-height: 50vh;
+        }
+        
+        .toggle-view {
+            top: 70px;
+        }
+        
+        .modal-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            position: relative;
+            top: -30px; /* Atur nilai negatif untuk menggeser ke atas */
+            margin-top: 0; /* Pastikan margin-top 0 */
+        }
+
+        /* Gaya untuk header order summary dengan tombol salin */
+        .order-summary-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .order-summary-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .copy-order-btn {
+            background: transparent;
+            border: none;
+            color: #128C7E;
+            font-size: 18px;
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+
+        .dark-mode .copy-order-btn {
+            color: #25D366;
+        }
+
+        .copy-order-btn:hover {
+            background: rgba(0,0,0,0.1);
+        }
+
+        .dark-mode .copy-order-btn:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        /* Toast notification */
+        .toast {
+            text-align: center;
+            position: fixed;
+            bottom: 12%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #333;
+            color: white;
+            padding: 10px 7px;
+            border-radius: 30px;
+            z-index: 1100;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+            width: 250px;
+            font-size: 13px;
+        }
+
+        .toast.show {
+            opacity: 1;
+        }
+
+        .dark-mode .toast {
+            background-color: #cbcbcb;
+            color: black;
+        }
+    </style>
+</head>
+<body>
+    <button class="dark-mode-toggle" id="darkModeToggle">
+        <i class="fas fa-moon"></i>
+    </button>
+    
+    <h1>Mesen Barang</h1>
+    
+    <div class="search-container">
+        <div class="search-wrapper">
+            <input type="text" id="search" placeholder="Alih produk...">
+            <button class="clear-search" id="clear-search"><i class="fas fa-times"></i></button>
+        </div>
+    </div>
+    
+    <div class="toggle-view">
+        <button class="toggle-btn active" id="show-products"><i class="fas fa-box-open"></i> Produk</button>
+        <button class="toggle-btn" id="show-orders"><i class="fas fa-shopping-cart"></i> Cingak Pesanan (<span id="item-count">0</span>)</button>
+    </div>
+    
+    <div class="order-summary" id="order-summary">
+        <div class="order-summary-header">
+            <div class="order-summary-title">
+                <h3><i class="fas fa-list"></i> List pesanan (<span id="order-item-count">0</span> item)</h3>
+            </div>
+            <button class="copy-order-btn" id="copy-order-btn" title="Salin list pesanan">
+                <i class="far fa-copy"></i>
+            </button>
+        </div>
+        <br>
+        <div class="order-items-container" id="order-items">
+            <!-- Item pesanan akan ditambahkan di sini -->
+            <div class="empty-order">list pesanan ne konden mejangin geg :)</div>
+        </div>
+       
+        <div class="button-group">
+            <button class="reset-btn" id="reset-order">
+                <i class="fas fa-redo" style="margin-right: 5px;"></i> Ulangi
+            </button>
+            <button class="print-btn" id="print-order">
+                <i class="fas fa-file-pdf print-icon"></i> Cetak
+            </button>
+            <button class="send-btn" id="send-order">
+                <i class="fab fa-whatsapp whatsapp-icon"></i> Kirim 
+            </button>
+            
+        </div>
+       
+    </div>
+    <br>
+    <div id="products-view">
+        <div class="products-container" id="products-container">
+            <!-- Produk akan dimuat melalui JavaScript -->
+        </div>
+        
+        <div class="no-results" id="no-results">
+            <p>Produk ne mbok alih onden medata</p>
+            <p>antos malu nah :) </p>
+        </div>
+    </div>
+    
+    <!-- Modal Konfirmasi Reset -->
+    <div class="modal" id="confirmModal">
+        <div class="modal-content">
+            <div class="modal-title"></i> Seken ngulang ngae mbok?</div>
+            <div class="modal-buttons">
+                <button class="modal-btn modal-btn-confirm" id="confirmReset"><i class="fas fa-check"></i> ae!</button>
+                <button class="modal-btn modal-btn-cancel" id="cancelReset"><i class="fas fa-times"></i> sing</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast notification -->
+    <div class="toast" id="toast">List mesalain!</div>
+    
+    <script>
+        // Daftar produk (tanpa harga)
+        const products = [
+            { id: 1, name: "Ezviz C6N 1080P" },
+            { id: 2, name: "Ezviz C6N 2K 4MP" },
+            { id: 3, name: "EZVIZ H8C 1080P" },
+            { id: 4, name: "EZVIZ H8C 2K 4MP" },
+            { id: 5, name: "EZVIZ H8C 2K 4G GSM" },
+            { id: 6, name: "EZVIZ H8C POE 2K" },
+            { id: 7, name: "Imou Cruiser SC IPC-K7CP 2K 3MP" },
+            { id: 8, name: "Imou Cruiser SC+ IPC-K7FP 5MP" },
+            { id: 9, name: "Imou Cruiser Dual 5+5MP IPC-S7XEP" },
+            { id: 10, name: "Imou Cruiser IPC-S21FA (POE)" },
+            { id: 11, name: "Imou Cell Go IPC Solar Panel" },
+            { id: 12, name: "DVR-204G-M1/T Hilook" },
+            { id: 13, name: "DVR-208G-M1 Hilook" },
+            { id: 14, name: "DVR 216G-M1" },
+            { id: 15, name: "DVR Hikvision iDS-7204HQHI-M1/XT" },
+            { id: 16, name: "DVR Hikvision DS-7208HQHI-M1/XT" },
+            { id: 17, name: "DVR Hikvision DS-7216HQHI-M1/XT" },
+            { id: 18, name: "DS-2CE76D0T-EXLPF Indoor 2MP Hikvision" },
+            { id: 19, name: "DS-2CE16D0T-EXLPF Outdoor 2MP Hikvision" },
+            { id: 20, name: "DS-2CE76K0T-EXLPF Indoor 3K Hikvision" },
+            { id: 21, name: "DS-2CE16K0T-EXLPF Outdoor 3K Hikvision" },
+            { id: 22, name: "DS-2CE16D0T-LPFS Outdoor 2MP+S Hikvision" },
+            { id: 23, name: "DS-2CE76D0T-LPFS Indoor 2MP+S Hikvision" },
+            { id: 24, name: "PSU Hikvision CCTV DS-2FA1225-D4" },
+            { id: 25, name: "PSU Hikvision CCTV DS-2FA1205-D8" },
+            { id: 26, name: "PSU Hi-View CCTV 16CH" },
+            { id: 27, name: "PSU Dahua DH-PFM344D-4CH" },
+            { id: 28, name: "PSU Dahua DH-PFM344D-8CH" },
+            { id: 29, name: "Dahua HAC-T1A21P Cooper Indoor" },
+            { id: 30, name: "Dahua HAC-B1A21P Cooper Outdoor" },
+            { id: 31, name: "Dahua XVR1B04 -I" },
+            { id: 32, name: "Dahua XVR1B04H Up to 5MP" },
+            { id: 33, name: "Dahua XVR1B08 -I" },
+            { id: 34, name: "Dahua XVR1B08H-I Up to 5MP" },
+            { id: 35, name: "Dahua XVR1B16-I" },
+            { id: 36, name: "Kabel RG59+2 Dahua 100m" },
+            { id: 37, name: "Kabel RG59+2 50m Globe" },
+            { id: 38, name: "Kabel RG59+2 Infinity 300m" },
+            { id: 39, name: "Kabel RG59+2 Vizpro 300m" },
+            { id: 40, name: "Kabel RG59+2 Robot White" },
+            { id: 41, name: "Kabel RG6 Matrix" },
+            { id: 42, name: "Kabel RG6 Dahua DH_PFM941 300m" },
+            { id: 43, name: "Kabel RG6+2 GLobe Cam 100m" },
+            { id: 44, name: "Kabel RG6+2 Infinity" },
+            { id: 45, name: "Kabel RG6+2 Sinovision Black 300m" },
+            { id: 46, name: "Kabel UTP/LAN Cat 6 Dahua DH-PFM9201-6UN Grey" },
+            { id: 47, name: "Kabel UTP/LAN Cat 6 Hikvision DS-1LN6U-W/CCA White" },
+            { id: 48, name: "Kabel UTP/LAN Cat 6 Belden Grey" },
+            { id: 49, name: "Conector RJ45 Belden Cat 6 (1 Pack 50 PCS)" },
+            { id: 50, name: "Conector RJ45 AMP Cat 6E (1 Pack 100 pcs)" },
+            { id: 51, name: "Conector RJ45 NYK Cat 6" },
+            { id: 52, name: "Conektor BNC Thunderin Taiwan" },
+            { id: 53, name: "Conektor BNC Drat" },
+            { id: 54, name: "Konektor I BNC Sambungan" },
+            { id: 55, name: "Jack DC Drat Male" },
+            { id: 56, name: "Jack DC Male Kabel" },
+            { id: 57, name: "Jack DC Drat Female" },
+            { id: 58, name: "Jack DC Female Kabel" },
+            { id: 59, name: "Isolasi Listrik 3M 1285 jr" },
+            { id: 60, name: "Kabel HDMI 1.5m Hitam" },
+            { id: 61, name: "PSU 12V 10A SPC SN-110" },
+            { id: 62, name: "PSU 12V 10A Techma" },
+            { id: 63, name: "PSU 12V 20A SPC SN-120" },
+            { id: 64, name: "PSU BOX 12V 20A" },
+            { id: 65, name: "Klem Supra 6mm" },
+            { id: 66, name: "Klem Supra 8mm" },
+            { id: 67, name: "Klem Supra 8mm Hitam" },
+            { id: 68, name: "Klem Supra 9mm" },
+            { id: 69, name: "Klem Supra 10mm" },
+            { id: 70, name: "Klem Supra 10mm Hitam" },
+            { id: 71, name: "Klem Supra 12mm" },
+            { id: 72, name: "Klem Supra 12mm Hitam" },
+            { id: 73, name: "Klem Supra 14mm" },
+            { id: 74, name: "Klem Supra 17mm" },
+            { id: 75, name: "Klem Supra 20mm" },
+            { id: 76, name: "Klem Supra 20mm Hitam" },
+            { id: 77, name: "Kabel Ties Masko 2.5x100 Putih" },
+            { id: 78, name: "Kabel Ties Masko 2.5x200 Hitam" },
+            { id: 79, name: "Kabel Ties Masko 2.5x200 Putih" },
+            { id: 80, name: "Kabel Ties Masko 3.6x300 Hitam" },
+            { id: 81, name: "Kabel Ties Masko 3.6x300 Putih" },
+            { id: 82, name: "THC-B120-PC Outdoor Hilook" },
+            { id: 83, name: "THC-T120-PC Indoor Hilook" },
+            { id: 84, name: "THC-T127-P Indoor Hilook Colorvu" },
+            { id: 85, name: "THC-B127-P Outdoor Hilook Colorvu" },
+            { id: 86, name: "THC-T120-PS Indoor+S" },
+            { id: 87, name: "THC-B120-PS Outdoor+S" },
+            { id: 88, name: "HDMI Spliter 1 To 4 AISEN" },
+            { id: 89, name: "HDMI Spliter 1 To 2 AISEN" },
+            { id: 90, name: "HDMI Extender AISEN Rj45 Up to 60m" },
+            { id: 91, name: "Kabel HDMI 20m Aisen 4K" },
+            { id: 92, name: "Kabel HDMI 15m Aisen 4K" },
+            { id: 93, name: "Kabel HDMI 1.5 Aisen 4K" },
+            { id: 94, name: "Kabel HDMI 30m 4K Aisen" },
+            { id: 95, name: "Kabel HDMI 1m Robot RFH01" },
+            { id: 96, name: "Kabel HDMI 2m Robot RFH02" },
+            { id: 97, name: "Kabel HDMI 3m Robot RFH03" },
+            { id: 98, name: "Kabel HDMI 5m Robot RFH05" },
+            { id: 99, name: "Kabel HDMI 10m Robot RFH10" },
+            { id: 100, name: "Adaptor 12V 2A Kualitas Super" },
+            { id: 101, name: "Adaptor 12V 5A Samsung" },
+            { id: 102, name: "Adaptor 12V 3A LG" },  
+            { id: 100, name: "Adaptor 12V 2A Kualitas Super" },
+            { id: 101, name: "Adaptor 12V 5A Samsung" },
+            { id: 102, name: "Adaptor 12V 3A LG" },
+            { id: 103, name: "EZVIZ H3C1080P Color" },
+            { id: 104, name: "EZVIZ H3C1080P IR" },
+            { id: 105, name: "EZVIZ H3C4MP" },
+            { id: 106, name: "Imou Ranger A1 IPC-K2E1P 2K" },
+            { id: 107, name: "Imou Bullet 2E IPC-K3DP 3MP" },
+            { id: 108, name: "Imou Cue 2C IPC-C22CP" },
+            { id: 109, name: "Imou Ranger Dual 3+3MP IPC-S2XP" },
+            { id: 110, name: "Mercusys MS105G 5 Port Gigabit Switch" },
+            { id: 111, name: "Mercusys MS108G 8 Port Gigabit Switch" },
+            { id: 112, name: "TP-LINK Switch  TL-SF1005D" },
+            { id: 113, name: "TP-LINK Switch  TL-SF1008D" },
+            { id: 114, name: "POE Switch DS-3E0106P-E/M" },
+            { id: 115, name: "POE Switch DS-3E0310 P-E/M" },
+            { id: 116, name: "TP-LINK Range Extender  TL-WA850RE" },
+            { id: 117, name: "TP-LINK Range Extender  TL-WA855RE" },
+            { id: 118, name: "TP-LINK Switch  TL-SG1005D" },
+            { id: 119, name: "TP-LINK switch  TL-SG1008D" },
+            { id: 120, name: "NS-0105P-35 POE HUB 5 Hilook" },
+            { id: 121, name: "NS-0109P-60(B)  POE HUB 9 Hilook" },
+            { id: 122, name: "Home router 4G Advance V1 Pro" },
+            { id: 123, name: "Tenda N301 Wireless N300" },
+            { id: 124, name: "Tenda  F3 4 in 1 Router" },
+            { id: 125, name: "Tenda O1 Outdoor CPE" },
+            { id: 126, name: "Tenda O3 Outdoor CPE" },
+            { id: 127, name: "Tenda O6 Outdoor CPE" },
+            { id: 128, name: "Ruijie RG-EW1200G Pro Dual Band Wireless Router" },
+            { id: 129, name: "Ruijie RG-EW1200 Dual Band Wireless Router" },
+            { id: 130, name: "Ruijie RG-EW1300G Dual Band Gigabit Wireles Router" },
+            { id: 131, name: "Ruijie RG-RAP1200(F) Wall Plate AP" },
+            { id: 132, name: "Ruijie RG-RAP2200(E) Ceiling AP" },
+            { id: 133, name: "Ruijie RG-RAP2200(F) Ceiling AP" },
+            { id: 134, name: "Ruijie RG-RAP52-OD" },
+            { id: 135, name: "Ruijie RG-E120 POE Adapter" },
+            { id: 136, name: "Ruijie RG-ES05G-L 5 Port Gigabit" },
+            { id: 137, name: "Ruijie RG-ES08G-L 8 Port Gigabit" },
+            { id: 138, name: "Ruijie RG-ES116G-L 16 Port Gigabit Metal" },
+            { id: 139, name: "Ruijie RG-ES205GC-P" },
+            { id: 140, name: "Ruijie RG-ES209GC-P" },
+            { id: 141, name: "Ruijie  RG-ES218GC-P" },
+            { id: 142, name: "Ruijie  RG-ES220GS-P" },
+            { id: 143, name: "Ruijie  RG-ES226GC-P" },
+            { id: 144, name: "Ruijie RG-EW3000GX Pro" },
+            { id: 145, name: "Keyboard +Mouse Robot KM3100" },
+            { id: 146, name: "Keyboard+Mouse Robot KM3000" },
+            { id: 147, name: "Keyboard +Mouse Robot KM4000" },
+            { id: 148, name: "Keyboard+Mouse Robot KM3500" },
+            { id: 149, name: "Mouse USB Robot M102" },
+            { id: 150, name: "Hi-view Memory 64GB Class 10" },
+            { id: 151, name: "ROBOT Micro SD 64GB RT64G" },
+            { id: 152, name: "Sandisk Ultra 64GB 100 Mbps" },
+            { id: 153, name: "Xiaohua Memory 64GB Class 10 (By Dahua)" },
+            { id: 154, name: "Olike Memory 128GB Class 10" },
+            { id: 155, name: "Sandisk Ultra 128GB 100 Mbps" },
+            { id: 156, name: "ROBOT Micro SD 32GB RT32G" },
+            { id: 157, name: "Sandisk Ultra 32GB 100 Mbps" },
+            { id: 158, name: "Precon FO 1 Core 50m Standar Telkom" },
+            { id: 159, name: "Precon FO 1 Core 100m Standar Telkom" },
+            { id: 160, name: "Precon FO 1 Core 150m Standar Telkom" },
+            { id: 161, name: "Precon FO 1 Core  80m Standar Telkom" },
+            { id: 162, name: "Precon FO 1 Core  250m Standar Telkom" },
+            { id: 163, name: "Precon FO 1 core 3 seling Fotec/Micore 200m" },
+            { id: 164, name: "Precon FO 1 core 3 seling Netline 200m" },
+            { id: 165, name: "Precon FO 1 core 3 seling Netline 50m" },
+            { id: 166, name: "Precon FO 1 core 3 seling  60m" },
+            { id: 167, name: "Precon FO 1 core 3 seling  75m" },
+            { id: 168, name: "Precon FO 1 core 3 seling Netline 80m" },
+            { id: 169, name: "Precon FO 1 Core  400m Standar Telkom" },
+            { id: 170, name: "Kabel NYMHY 2x0.75 Rubytech Hitam" },
+            { id: 171, name: "Kabel NYMHY 2x0.75 Rubytech" },
+            { id: 172, name: "Kabel  NYMHY Kenjiro 2x0.75 Putih" },
+            { id: 173, name: "Kabel  NYMHY Kenjiro 2x0.75 Hitam" },
+            { id: 174, name: "Kabel NYM 2x1.5 Rubytech" },
+            { id: 175, name: "Kabel  NYMHY  Kenjiro 2x1.5 Putih" },
+            { id: 176, name: "Kabel  NYMHY  Kenjiro 2x1.5 Hitam" },
+            { id: 177, name: "Kabel  NYM 2x1.5 Extrana" },
+            { id: 178, name: "Kabel  NYM 2x2.5 Extrana" },
+            { id: 179, name: "Kabel NYM 2x2.5 Rubytech" },
+            { id: 180, name: "Kabel NYM 3x1.5 Rubytech" },
+            { id: 181, name: "Kabel  NYY 3x1.5 Extrana Hitam" },
+            { id: 182, name: "Kabel  NYM 3x1.5 Extrana" },
+            { id: 183, name: "Kabel NYM 3x2.5 Rubytech" },
+            { id: 184, name: "Kabel  NYM 3x2.5 Extrana" }
+            ];
+
+        
+        // Variabel untuk menyimpan pesanan
+        let orders = {};
+        let totalItems = 0;
+        
+        // Fungsi debounce untuk menunda eksekusi
+        function debounce(func, delay) {
+            let timeoutId;
+            return function() {
+                const context = this;
+                const args = arguments;
+                clearTimeout(timeoutId);
+                timeoutId = setTimeout(() => {
+                    func.apply(context, args);
+                }, delay);
+            };
+        }
+        
+        // Fungsi untuk memuat produk
+        function loadProducts() {
+            const container = document.getElementById('products-container');
+            container.innerHTML = '';
+            
+            products.forEach(product => {
+                const productCard = document.createElement('div');
+                productCard.className = 'product-card';
+                productCard.dataset.id = product.id;
+                productCard.dataset.name = product.name.toLowerCase();
+                
+                productCard.innerHTML = `
+                    <div class="product-name">${product.name}</div>
+                    <div class="quantity-control">
+                        <button class="quantity-btn minus" data-id="${product.id}"><i class="fas fa-minus"></i></button>
+                        <input type="number" class="quantity-input" data-id="${product.id}" value="0" min="0">
+                        <button class="quantity-btn plus" data-id="${product.id}"><i class="fas fa-plus"></i></button>
+                    </div>
+                `;
+                
+                container.appendChild(productCard);
+            });
+        }
+        
+        // Fungsi untuk memfilter produk berdasarkan pencarian
+        function filterProducts() {
+            const searchTerm = document.getElementById('search').value.toLowerCase();
+            const productCards = document.querySelectorAll('.product-card');
+            let visibleCount = 0;
+            
+            productCards.forEach(card => {
+                const productName = card.dataset.name;
+                if (productName.includes(searchTerm)) {
+                    card.style.display = 'flex';
+                    visibleCount++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+            
+            // Tampilkan pesan jika tidak ada hasil
+            const noResults = document.getElementById('no-results');
+            noResults.classList.toggle('show', visibleCount === 0);
+            
+            // Tampilkan atau sembunyikan tombol clear berdasarkan apakah ada input
+            const clearBtn = document.getElementById('clear-search');
+            clearBtn.style.display = searchTerm.length > 0 ? 'block' : 'none';
+        }
+        
+        // Fungsi untuk memperbarui input produk berdasarkan pesanan
+        function updateProductInputs() {
+            for (const productId in orders) {
+                const input = document.querySelector(`.quantity-input[data-id="${productId}"]`);
+                if (input) {
+                    input.value = orders[productId];
+                }
+            }
+        }
+        
+        // Fungsi untuk menghitung jumlah item yang dipesan (berdasarkan produk, bukan kuantitas)
+        function calculateOrderedItems() {
+            let count = 0;
+            for (const productId in orders) {
+                if (orders[productId] > 0) {
+                    count++;
+                }
+            }
+            return count;
+        }
+        
+        // Fungsi untuk membuat teks list pesanan
+        function generateOrderText() {
+            let message = "Order barang :\n\n";
+            let itemNumber = 1;
+
+            for (const productId in orders) {
+                if (orders[productId] > 0) {
+                    const product = products.find(p => p.id == productId);
+                    message += `${itemNumber}. ${product.name} (${orders[productId]}) =\n\n`;
+                    itemNumber++;
+                }
+            }
+
+            return message;
+        }
+
+                
+        // Fungsi untuk memperbarui ringkasan pesanan
+        function updateOrderSummary() {
+            const orderItemsContainer = document.getElementById('order-items');
+            
+            totalItems = calculateOrderedItems();
+            
+            // Kosongkan kontainer pesanan
+            orderItemsContainer.innerHTML = '';
+            
+            if (totalItems === 0) {
+                // Jika tidak ada pesanan, tampilkan pesan kosong
+                const emptyMessage = document.createElement('div');
+                emptyMessage.className = 'empty-order';
+                emptyMessage.textContent = 'list pesanan puyung"';
+                orderItemsContainer.appendChild(emptyMessage);
+            } else {
+                // Jika ada pesanan, tampilkan item
+                let itemNumber = 1; // Variabel untuk nomor urut
+                
+                for (const productId in orders) {
+                    if (orders[productId] > 0) {
+                        const product = products.find(p => p.id == productId);
+                        
+                        const orderItem = document.createElement('div');
+                        orderItem.className = 'order-item';
+                        orderItem.innerHTML = `
+                            <div class="order-item-name">
+                                <span class="item-number">${itemNumber}.</span>
+                                ${product.name}
+                            </div>
+                            <div class="order-item-control">
+                                <button class="quantity-btn minus" data-id="${productId}"><i class="fas fa-minus"></i></button>
+                                <input type="number" class="order-quantity-input" data-id="${productId}" value="${orders[productId]}" min="0">
+                                <button class="quantity-btn plus" data-id="${productId}"><i class="fas fa-plus"></i></button>
+                            </div>
+                        `;
+                        
+                        orderItemsContainer.appendChild(orderItem);
+                        itemNumber++; // Tingkatkan nomor urut
+                    }
+                }
+            }
+            
+            document.getElementById('item-count').textContent = totalItems;
+            document.getElementById('order-item-count').textContent = totalItems;
+            
+            // Tambahkan event listener untuk input di ringkasan pesanan
+            const summaryInputs = document.querySelectorAll('#order-items .order-quantity-input');
+            summaryInputs.forEach(input => {
+                input.addEventListener('change', function() {
+                    const productId = this.dataset.id;
+                    let value = parseInt(this.value) || 0;
+                    this.value = Math.max(0, value);
+                    orders[productId] = parseInt(this.value);
+                    
+                    // Jika jumlah menjadi 0, hapus dari pesanan
+                    if (orders[productId] === 0) {
+                        delete orders[productId];
+                    }
+                    
+                    updateProductInputs();
+                    updateOrderSummary();
+                });
+            });
+        }
+        
+        // Fungsi untuk menangani perubahan kuantitas (baik dari tombol maupun input)
+        function handleQuantityChange(productId, newValue) {
+            newValue = Math.max(0, newValue);
+            orders[productId] = newValue;
+            
+            // Jika jumlah menjadi 0, hapus dari pesanan
+            if (orders[productId] === 0) {
+                delete orders[productId];
+            }
+            
+            // Perbarui input di tampilan produk
+            const productInput = document.querySelector(`.quantity-input[data-id="${productId}"]`);
+            if (productInput) {
+                productInput.value = newValue;
+            }
+            
+            // Perbarui ringkasan pesanan
+            updateOrderSummary();
+        }
+        
+        // Fungsi untuk mengirim pesanan ke WhatsApp
+        function sendOrderToWhatsApp() {
+            if (totalItems === 0) {
+                // Menggunakan alert biasa tanpa judul domain
+                alert('jangin list malu, nu puyung ape kal kirim mbok??');
+                return;
+            }
+            
+            const message = generateOrderText();
+            
+            // Encode pesan untuk URL WhatsApp
+            const encodedMessage = encodeURIComponent(message);
+            
+            // Nomor WhatsApp tujuan
+            const phoneNumber = "6285955202282";
+            
+            // Buka WhatsApp dengan pesan
+            window.open(`https://wa.me/${phoneNumber}?text=${encodedMessage}`, '_blank');
+        }
+        
+        // Fungsi untuk menyalin list pesanan ke clipboard
+        function copyOrderToClipboard() {
+            if (totalItems === 0) {
+                showToast('List pesanan nu puyung');
+                return;
+            }
+            
+            const message = generateOrderText();
+            
+            navigator.clipboard.writeText(message).then(() => {
+                
+            }).catch(err => {
+                console.error('Gagal menyalin: ', err);
+                showToast('Gagal menyalin list pesanan');
+            });
+        }
+        
+        // Fungsi untuk menampilkan toast notification
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+        
+        // Fungsi untuk reset semua pesanan
+        function resetAllOrders() {
+            // Jika tidak ada pesanan, langsung return tanpa menampilkan modal
+            if (totalItems === 0) {
+                return;
+            }
+            
+            // Tampilkan modal konfirmasi
+            document.getElementById('confirmModal').style.display = 'flex';
+        }
+        
+        // Fungsi untuk melakukan reset setelah dikonfirmasi
+        function performReset() {
+            // Reset semua pesanan
+            orders = {};
+            
+            // Perbarui semua input produk ke 0
+            document.querySelectorAll('.quantity-input').forEach(input => {
+                input.value = 0;
+            });
+            
+            // Perbarui ringkasan pesanan
+            updateOrderSummary();
+            
+            // Sembunyikan modal
+            document.getElementById('confirmModal').style.display = 'none';
+        }
+        
+        // Fungsi untuk toggle tampilan
+        function toggleView(view) {
+            const productsView = document.getElementById('products-view');
+            const orderSummary = document.getElementById('order-summary');
+            const showProductsBtn = document.getElementById('show-products');
+            const showOrdersBtn = document.getElementById('show-orders');
+            
+            if (view === 'products') {
+                productsView.style.display = 'block';
+                orderSummary.style.display = 'none';
+                showProductsBtn.classList.add('active');
+                showOrdersBtn.classList.remove('active');
+            } else {
+                productsView.style.display = 'none';
+                orderSummary.style.display = 'block';
+                showProductsBtn.classList.remove('active');
+                showOrdersBtn.classList.add('active');
+                updateOrderSummary();
+            }
+        }
+        
+        // Fungsi untuk toggle dark mode
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            const isDarkMode = document.body.classList.contains('dark-mode');
+            localStorage.setItem('darkMode', isDarkMode);
+            
+            const darkModeToggle = document.getElementById('darkModeToggle');
+            if (isDarkMode) {
+                darkModeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+            } else {
+                darkModeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+            }
+        }
+        
+        // Event listeners
+        document.addEventListener('DOMContentLoaded', () => {
+            loadProducts();
+            
+            // Cek preferensi dark mode dari localStorage
+            if (localStorage.getItem('darkMode') === 'true') {
+                document.body.classList.add('dark-mode');
+                document.getElementById('darkModeToggle').innerHTML = '<i class="fas fa-sun"></i>';
+            }
+            
+            // Pencarian produk dengan debounce 300ms
+            const searchInput = document.getElementById('search');
+            searchInput.addEventListener('input', debounce(filterProducts, 100));
+            
+            // Tombol clear search
+            document.getElementById('clear-search').addEventListener('click', function() {
+                searchInput.value = '';
+                filterProducts();
+                searchInput.focus();
+            });
+            
+            // Delegasi event untuk tombol plus/minus dan input di seluruh dokumen
+            document.addEventListener('click', (e) => {
+                // Tangani tombol plus/minus baik di produk maupun ringkasan pesanan
+                if (e.target.classList.contains('plus') || e.target.classList.contains('minus') || 
+                    e.target.closest('.plus') || e.target.closest('.minus')) {
+                    
+                    const button = e.target.classList.contains('plus') || e.target.classList.contains('minus') ? 
+                                 e.target : e.target.closest('.plus') || e.target.closest('.minus');
+                    
+                    const productId = button.dataset.id;
+                    const input = button.closest('.quantity-control, .order-item-control').querySelector('input');
+                    let value = parseInt(input.value) || 0;
+                    
+                    if (button.classList.contains('plus') || button.closest('.plus')) {
+                        value++;
+                    } else {
+                        value = Math.max(0, value - 1);
+                    }
+                    
+                    handleQuantityChange(productId, value);
+                }
+            });
+            
+            // Delegasi event untuk input manual di produk
+            document.addEventListener('change', (e) => {
+                if (e.target.classList.contains('quantity-input')) {
+                    const productId = e.target.dataset.id;
+                    const value = parseInt(e.target.value) || 0;
+                    handleQuantityChange(productId, value);
+                }
+            });
+            
+            // Kirim ke WhatsApp
+            document.getElementById('send-order').addEventListener('click', sendOrderToWhatsApp);
+            
+            // Reset pesanan
+            document.getElementById('reset-order').addEventListener('click', resetAllOrders);
+            
+            // Konfirmasi reset
+            document.getElementById('confirmReset').addEventListener('click', performReset);
+            
+            // Batal reset
+            document.getElementById('cancelReset').addEventListener('click', function() {
+                document.getElementById('confirmModal').style.display = 'none';
+            });
+            
+                       // Toggle tampilan
+                       document.getElementById('show-products').addEventListener('click', () => toggleView('products'));
+            document.getElementById('show-orders').addEventListener('click', () => toggleView('orders'));
+            
+            // Dark mode toggle
+            document.getElementById('darkModeToggle').addEventListener('click', toggleDarkMode);
+            
+            // Salin list pesanan
+            document.getElementById('copy-order-btn').addEventListener('click', copyOrderToClipboard);
+            
+            // Tutup modal saat klik di luar konten modal
+            document.addEventListener('click', (e) => {
+                const modal = document.getElementById('confirmModal');
+                if (e.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+            
+            // Animasi dark mode overlay
+            const darkModeOverlay = document.createElement('div');
+            darkModeOverlay.className = 'dark-mode-overlay';
+            document.body.appendChild(darkModeOverlay);
+            
+            // Set timeout untuk menghilangkan overlay setelah animasi selesai
+            setTimeout(() => {
+                darkModeOverlay.style.display = 'none';
+            }, 1000);
+        });
+        
+    </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+
+<script>
+    const { jsPDF } = window.jspdf;
+
+    function printOrderToPDF() {
+        if (totalItems === 0) {
+            showToast('List pesanan masih kosong');
+            return;
+        }
+
+        const doc = new jsPDF();
+        const hariIndonesia = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+        const today = new Date();
+        const namaHari = hariIndonesia[today.getDay()];
+        const tanggal = today.toLocaleDateString('id-ID');
+
+        // Latar putih seluruh halaman
+        doc.setFillColor(255, 255, 255);
+        doc.rect(0, 0, 210, 297, 'F');
+
+        // Pengaturan spasi konsisten
+        const spacing = 8; // Jarak seragam 8mm antara semua elemen
+
+        // Judul
+        doc.setFontSize(16);
+        doc.setFont('helvetica', 'bold');
+        doc.text('LIST PESANAN ELECTRA KAPAL', 20, 15);
+
+        // Tanggal dan hari
+        doc.setFontSize(10);
+        doc.setFont('helvetica', 'normal');
+        doc.text(`Tanggal: ${tanggal}`, 20, 15 + spacing);
+        doc.text(`Hari: ${namaHari}`, 190, 15 + spacing, { align: 'right' });
+
+        const headers = [['No', 'Nama Barang', 'Jumlah']];
+        const data = [];
+        let no = 1;
+        let totalBarang = 0;
+
+        for (const id in orders) {
+            if (orders[id] > 0) {
+                const product = products.find(p => p.id == id);
+                data.push([no++, product.name, orders[id]]);
+                totalBarang += orders[id];
+            }
+        }
+
+        // Tabel dengan garis hitam
+        doc.autoTable({
+            startY: 15 + (spacing * 2), // Jarak spacing dari tanggal
+            head: headers,
+            body: data,
+            theme: 'grid',
+            headStyles: {
+                fillColor: [255, 255, 255],
+                textColor: 0,
+                fontStyle: 'bold',
+                halign: 'center',
+                lineColor: [0, 0, 0],
+                lineWidth: 0.3
+            },
+            bodyStyles: {
+                fillColor: [255, 255, 255],
+                textColor: 0,
+                lineColor: [0, 0, 0],
+                lineWidth: 0.2
+            },
+            styles: {
+                fontSize: 10,
+                cellPadding: 3,
+                valign: 'middle',
+                lineColor: [0, 0, 0],
+                lineWidth: 0.2
+            },
+            columnStyles: {
+                0: { cellWidth: 12, halign: 'center' },
+                1: { cellWidth: 140 },
+                2: { cellWidth: 18, halign: 'center' }
+            },
+            margin: { left: 20, right: 20 }
+        });
+
+        // Total barang dengan spasi yang sama
+        const finalY = doc.lastAutoTable.finalY + spacing;
+        doc.setFontSize(10);
+        doc.setFont('helvetica', 'normal');
+        doc.text(`Total Barang: ${totalBarang}`, 190, finalY, { align: 'right' });
+
+        doc.save(`Pesanan_Electra_Kapal_${today.toISOString().slice(0, 10)}.pdf`);
+    }
+
+    document.getElementById('print-order').addEventListener('click', printOrderToPDF);
+</script>
+
+
+
+</body>
+</html>
