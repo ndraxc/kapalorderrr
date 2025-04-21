@@ -600,6 +600,10 @@
             color: #e0e0e0;
         }
         
+        #products-view {
+                margin-top: -25px; /* Geser lebih kecil di mobile */
+            }
+        
         /* Tampilan Mobile */
         @media (max-width: 600px) {
             body {
@@ -622,7 +626,7 @@
                 max-height: 190vh; /* Tinggi maksimum lebih besar */
                 height: auto; /* Biarkan tinggi menyesuaikan konten */
                 /* Tambahkan properti baru: */
-                top: 210px; /* Pastikan tidak ada top yang mengganggu */
+                top: 212px; /* Pastikan tidak ada top yang mengganggu */
                 transform: none;
             }
             
@@ -704,6 +708,21 @@
             align-items: center;
             margin-bottom: 15px;
         }
+             
+        .order-summary {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                margin: 0;
+                border-radius: 0;
+                box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+                max-height: 190vh; /* Tinggi maksimum lebih besar */
+                height: auto; /* Biarkan tinggi menyesuaikan konten */
+                /* Tambahkan properti baru: */
+                top: 210px; /* Pastikan tidak ada top yang mengganggu */
+                transform: none;
+            }
 
         .order-summary-title {
             display: flex;
@@ -1340,31 +1359,7 @@
             { id: 470, name: "Monitor Proview 22\" SM-LED22A" },
             { id: 471, name: "Monitor Tagvision 19\" TAG-LED19A" },
             { id: 472, name: "Monitor Uniarch 22\" MT-22L" },
-            { id: 473, name: "Monitor Dahua 1080p 43\"" },
-            { id: 474, name: "Box Panel IONEE 30x40x20 Topi" },
-            { id: 475, name: "Box Panel IONEE 35x25x12" },
-            { id: 476, name: "Box Panel IONEE 40x30x15" },
-            { id: 477, name: "Box Panel IONEE 30x40x15 Topi" },
-            { id: 478, name: "Box Panel IONEE 40x50x20" },
-            { id: 479, name: "Box Panel IONEE 40x50x20 Topi" },
-            { id: 480, name: "Box Panel IONEE 60x40x20" },
-            { id: 481, name: "Box Panel Masko 35x25x12" },
-            { id: 482, name: "Box Panel Masko 40x30x15" },
-            { id: 483, name: "Box Panel Masko 60x40x20" },
-            { id: 484, name: "Box X2-B Hitam (7.7x5.7x2.7)" },
-            { id: 485, name: "Box X7 Hitam (12.5x8.5x1.5)" },
-            { id: 486, name: "Box X8 Hitam (16x14x4)" },
-            { id: 487, name: "Box X10 Hitam (12x6x1.5)" },
-            { id: 488, name: "Box X6 Hitam (18x11x6)" },
-            { id: 489, name: "Box X4 Hitam (12x8x5)" },
-            { id: 490, name: "Box X5 Hitam (14.4x9.5x5)" },
-            { id: 491, name: "Box X3 Hitam (10x7x4)" },
-            { id: 492, name: "Box X2 Hitam (11.5x5.5x4)" },
-            { id: 493, name: "Box X1 Hitam (11.5x5.5x4)" },
-            { id: 494, name: "Box 100x70 Aluminium Case" },
-            { id: 495, name: "Box 100x75 Aluminium Case" },
-            { id: 496, name: "Box 25x19x8 Abu-Abu" }
-            
+            { id: 473, name: "Monitor Dahua 1080p 43\"" }
             ];
 
         
@@ -1567,22 +1562,26 @@ function generateOrderText() {
 
 
 
-        // Fungsi untuk mengirim pesanan ke WhatsApp
-        function sendOrderToWhatsApp() {
-            if (totalItems === 0) {
-                showToast('List pesanan nu puyung');
-                return;
-            }
-            
-            const message = generateOrderText();
-            
-            navigator.clipboard.writeText(message).then(() => {
-                
-            }).catch(err => {
-                console.error('Gagal menyalin: ', err);
-                showToast('Gagal menyalin list pesanan');
-            });
-        }
+// Fungsi untuk mengirim pesanan ke WhatsApp
+function sendOrderToWhatsApp() {
+    if (totalItems === 0) {
+        showToast('List pesanan nu puyung');
+        return;
+    }
+    
+    const message = generateOrderText();
+    const phoneNumber = '6285955202282'; // Sudah diperbaiki dari 0859 ke format internasional
+
+    // Encode message untuk URL
+    const encodedMessage = encodeURIComponent(message);
+    
+    // Buat URL WhatsApp
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+    
+    // Buka WhatsApp di tab baru
+    window.open(whatsappUrl, '_blank');
+}
+
         
         // Fungsi untuk menyalin list pesanan ke clipboard
         function copyOrderToClipboard() {
