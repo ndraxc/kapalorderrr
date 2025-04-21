@@ -1463,7 +1463,7 @@
                 // Jika tidak ada pesanan, tampilkan pesan kosong
                 const emptyMessage = document.createElement('div');
                 emptyMessage.className = 'empty-order';
-                emptyMessage.textContent = '';
+                emptyMessage.textContent = 'sing misi ape';
                 orderItemsContainer.appendChild(emptyMessage);
             } else {
                 // Jika ada pesanan, tampilkan item
@@ -1538,17 +1538,10 @@
         const product = products.find(p => p.id == productId);
         let message = '';
         
-        if (newValue > oldValue) {
-            message = `Ditambah: ${product.name} (${newValue})`;
-        } else if (newValue < oldValue) {
-            message = `Dikurangi: ${product.name} (${newValue})`;
-        }
-        
-        if (message) {
-            showToast(message);
+       
         }
     }
-}
+
 
 
         // Fungsi untuk mengirim pesanan ke WhatsApp
