@@ -1434,20 +1434,21 @@
         }
         
         // Fungsi untuk membuat teks list pesanan
-        function generateOrderText() {
-            let message = "Order barang :\n\n";
-            let itemNumber = 1;
+ // Fungsi untuk membuat teks list pesanan
+function generateOrderText() {
+    let message = "Order barang :\n\n";
+    let itemNumber = 1;
 
-            for (const productId in orders) {
-                if (orders[productId] > 0) {
-                    const product = products.find(p => p.id == productId);
-                    message += `${itemNumber}. ${product.name} (${orders[productId]}) =\n\n`;
-                    itemNumber++;
-                }
-            }
-
-            return message;
+    for (const productId in orders) {
+        if (orders[productId] > 0) {
+            const product = products.find(p => p.id == productId);
+            message += `${itemNumber}. ${product.name} (${orders[productId]}) =\n\n`;
+            itemNumber++;
         }
+    }
+
+    return message;
+}
 
                 
         // Fungsi untuk memperbarui ringkasan pesanan
