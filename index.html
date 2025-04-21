@@ -738,7 +738,7 @@
         .toast {
             text-align: center;
             position: fixed;
-            bottom: 12%;
+            bottom: 14%;
             left: 50%;
             transform: translateX(-50%);
             background-color: #333;
@@ -841,11 +841,43 @@
         // Daftar produk (tanpa harga)
         const products = [
             { id: 1, name: "Ezviz C6N 1080P" },
-            { id: 2, name: "Ezviz C6N 2K 4MP" },
+            { id: 2, name: "Ezviz H6C Pro 2K+" },
             { id: 3, name: "EZVIZ H8C 1080P" },
             { id: 4, name: "EZVIZ H8C 2K 4MP" },
             { id: 5, name: "EZVIZ H8C 2K 4G GSM" },
             { id: 6, name: "EZVIZ H8C POE 2K" },
+            { id: 1, name: "EZVIZ H7C 2 Lens" },
+            { id: 2, name: "Ezviz BC1C Baterry" },
+            { id: 3, name: "EZVIZ C1C-B" },
+            { id: 4, name: "Ezviz C1HC 1080P" },
+            { id: 15, name: "EZVIZ C8C 1080P" },
+            { id: 16, name: "EZVIZ C8C 4 MP" },
+            { id: 18, name: "EZVIZ C8W 2K 4MP" },
+            { id: 19, name: "EZVIZ CB1 Battery" },
+            { id: 20, name: "EZVIZ H1C" },
+            { id: 21, name: "EZVIZ EB8 4MP 4G Battery+ Solar panel" },
+            { id: 22, name: "EZVIZ H3C4MP" },
+            { id: 23, name: "EZVIZ H3C1080P Color" },
+            { id: 24, name: "EZVIZ H3C1080P IR" },
+            { id: 25, name: "EZVIZ H6 3K" },
+            { id: 26, name: "Ezviz H6C Pro 2K+" },
+            { id: 27, name: "EZVIZ H80X 4K Auto Zoom Tracking" },
+            { id: 28, name: "EZVIZ H8C 1080P" },
+            { id: 29, name: "EZVIZ H8C 2K 4MP" },
+            { id: 30, name: "EZVIZ H8C 2K 4G GSM" },
+            { id: 31, name: "EZVIZ H8C POE 2K" },
+            { id: 32, name: "EZVIZ CS-H8 PRO 5MP" },
+            { id: 33, name: "EZVIZ H9C Dual 2K" },
+            { id: 34, name: "EZVIZ HB8 4MP Battery" },
+            { id: 35, name: "EZVIZ TY1 1080P" },
+            { id: 36, name: "EZVIZ TY1 2K 4MP" },
+            { id: 37, name: "EZVIZ Smart Lock DL05" },
+            { id: 38, name: "EZVIZ NVR CS-X5S-4W 4 Chanel" },
+            { id: 39, name: "EZVIZ NVR CS-X5S-8W 8 Chanel" },
+            { id: 40, name: "EZVIZ R5C Home Storage" },
+            { id: 41, name: "Ezviz Solar Panel" },
+            { id: 42, name: "Bracket CCTV Ezviz OEM" },
+            { id: 43, name: "Bracket CCTV Ezviz (Wallmount)" },
             { id: 7, name: "Imou Cruiser SC IPC-K7CP 2K 3MP" },
             { id: 8, name: "Imou Cruiser SC+ IPC-K7FP 5MP" },
             { id: 9, name: "Imou Cruiser Dual 5+5MP IPC-S7XEP" },
@@ -1026,7 +1058,291 @@
             { id: 181, name: "Kabel  NYY 3x1.5 Extrana Hitam" },
             { id: 182, name: "Kabel  NYM 3x1.5 Extrana" },
             { id: 183, name: "Kabel NYM 3x2.5 Rubytech" },
-            { id: 184, name: "Kabel  NYM 3x2.5 Extrana" }
+            { id: 184, name: "Kabel  NYM 3x2.5 Extrana" },
+            { id: 185, name: "HARDDISK EXTERNAL SEAGATE EXPANSION 1TB" },
+            { id: 186, name: "HDD 1TB Seagate Expantion Basic" },
+            { id: 187, name: "HDD 6TB Hikvision" },
+            { id: 188, name: "HDD 8TB Hikvision" },
+            { id: 189, name: "HDD 2TB Toshiba Surveillance S300" },
+            { id: 190, name: "HDD 4TB Toshiba Surveillance S300" },
+            { id: 191, name: "HDD 1TB Toshiba Surveillance S300" },
+            { id: 192, name: "HDD 10TB Seagate Skyhawk Garansi Resmi" },
+            { id: 193, name: "HDD 2TB Hikvision" },
+            { id: 194, name: "HDD 2TB Seagate Shyhawk MFI" },
+            { id: 195, name: "HDD 2TB Seagate Shyhawk Garansi Resmi" },
+            { id: 196, name: "HDD 4TB Seagate Shyhawk Garansi Resmi" },
+            { id: 197, name: "HDD 4TB Hikvision" },
+            { id: 198, name: "HDD 4TB Seagate Shyhawk MFI" },
+            { id: 199, name: "HDD 6TB Seagate Baracuda MFI" },
+            { id: 200, name: "HDD 6TB Seagate Shyhawk MFI" },
+            { id: 201, name: "HDD 6TB Seagate Shyhawk Garansi Resmi" },
+            { id: 202, name: "HDD 8TB Seagate Baracuda MFI" },
+            { id: 203, name: "HDD 8TB Seagate EXOS Enterprise" },
+            { id: 204, name: "HDD 8TB Seagate Skyhawk MFI" },
+            { id: 205, name: "HDD 8TB Seagate Skyhawk 1 th" },
+            { id: 206, name: "HDD 8TB Seagate Skyhawk Garansi Resmi" },
+            { id: 207, name: "HDD 1TB Seagate Skyhawh Garansi Resmi" },
+            { id: 208, name: "HDD 1TB Seagate Baracuda" },
+            { id: 209, name: "HDD 1TB Seagate Skyhawh MFI" },
+            { id: 210, name: "HDD 1TB Seagate Skyhawk 1Th" },
+            { id: 211, name: "HDD 2TB Seagate 1Th" },
+            { id: 212, name: "HDD 2TB Seagate Skyhawk 1Th" },
+            { id: 213, name: "HDD 4TB Seagate 1TH" },
+            { id: 214, name: "HDD 4TB Seagate Skyhawk 1TH" },
+            { id: 215, name: "HDD 5TB Seagate 1TH" },
+            { id: 216, name: "HDD 1TB WD Green Power 1Th" },
+            { id: 217, name: "HDD 1TB WD Purple Surveillance 1th" },
+            { id: 218, name: "HDD 1TB WD Purple Surveillance Garansi Resmi" },
+            { id: 219, name: "HDD 2TB PC WD Blue" },
+            { id: 220, name: "HDD 2TB WD Purple Surveillance 1Th" },
+            { id: 221, name: "HDD 2TB WD Purple Surveillance Garansi Resmi" },
+            { id: 222, name: "HDD 4TB WD Purple Surveillance Garansi Resmi" },
+            { id: 223, name: "HDD 4TB WD Purple Surveillance 1 Tahun" },
+            { id: 224, name: "HDD 500 GB WD Blue" },
+            { id: 225, name: "HDD 500 GB WD Green Power" },
+            { id: 226, name: "HDD 6TB WD Purple Surveillance Garansi Resmi" },
+            { id: 227, name: "HDD 8TB WD Purple Garansi Resmi" },
+            { id: 228, name: "HDD External WD Elements 1TB" },
+            { id: 229, name: "Case HDD Enclosure 2,5 DF USB 3.0/3.1" },
+            { id: 230, name: "Case HDD 2.5\" MAXTECH Transparant" },
+            { id: 231, name: "Case HDD 2,5 Maxtek Enclosure USB3.0 Black" },
+            { id: 232, name: "Case HDD 2,5 ORICO TRSP" },
+            { id: 233, name: "Case HDD 2,5 Vivan TRSP" },
+            { id: 234, name: "Case HDD 3.5 ORICO TRSP" },
+            { id: 235, name: "Case HDD 2,5 ORICO Enclosure 2577U3" },
+            { id: 236, name: "Case HDD 2,5 ORICO Enclosure 2020U3" },
+            { id: 237, name: "Case HDD 2,5 ORICO Enclosure 25PW1-U3" },
+            { id: 238, name: "Case HDD 2.5\" SAMSUNG usb 2.0" },
+            { id: 239, name: "Case HDD 2,5 Maxline" },
+            { id: 240, name: "Kabel USB to Sata HDD" },
+            { id: 242, name: "TP-LINK Archer AC1350 Dual Band" },
+            { id: 243, name: "TP-LINK Archer C54" },
+            { id: 244, name: "TP-LINK CPE210 Outdoor" },
+            { id: 245, name: "TP-LINK CPE220 Outdoor" },
+            { id: 246, name: "TP-LINK CPE510 Outdoor" },
+            { id: 247, name: "TP-LINK DECO E4 (1-Pack) AC 1200 Whole Home" },
+            { id: 248, name: "TP-LINK EAP110 Outdoor" },
+            { id: 249, name: "TP-LINK EAP115-Wall 300Mbps" },
+            { id: 250, name: "TP-LINK EAP110 Indoor" },
+            { id: 251, name: "TP-LINK 4G LTE Router TL-MR105" },
+            { id: 252, name: "TP-LINK  Router TL-MR-3420" },
+            { id: 253, name: "TP-LINK TL-POE150S POE Adapter" },
+            { id: 254, name: "TP-LINK Switch LS-1005" },
+            { id: 255, name: "TP-LINK Switch TLS1005G Gigabit" },
+            { id: 258, name: "TP-LINK Switch  TL-SF1016D" },
+            { id: 260, name: "TP-LINK Switch  TL-SG1005P 4 Port POE" },
+            { id: 262, name: "TP-LINK SWITCH 16 Port TL-SG1016D Gigabit Dekstop Rackmount" },
+            { id: 263, name: "TP-LINK SWITCH 24 Port TL-SG1024D Gigabit" },
+            { id: 264, name: "TP-LINK Switch  TL-SG108PE" },
+            { id: 265, name: "TP-LINK Bluetooth USB  5.3  UB500" },
+            { id: 266, name: "TP-LINK Range Ext TL-WA820RE" },
+            { id: 267, name: "TP-LINK Range Extender  TL-WA850RE" },
+            { id: 268, name: "TP-LINK Range Extender  TL-WA854RE" },
+            { id: 269, name: "TP-LINK Range Extender  TL-WA855RE" },
+            { id: 270, name: "TP-LINK TL-WN722N USB WIFI" },
+            { id: 271, name: "TP-LINK TL-WN725N USB WIFI Nano Size" },
+            { id: 272, name: "TP-LINK TL-WN727N USB WIFI" },
+            { id: 273, name: "TP-LINK TL-WN781ND PCI EXP WIFI" },
+            { id: 274, name: "TP-LINK TL-WN821N USB WIFI" },
+            { id: 275, name: "TP-LINK  Router TL-WR3020" },
+            { id: 276, name: "TP-LINK Router TL-WR840N" },
+            { id: 277, name: "TP-LINK ROUTER TL-WR841HP Power" },
+            { id: 278, name: "TP-LINK Router TL-WR845N" },
+            { id: 279, name: "TP-LINK Router TL-WR940N" },
+            { id: 280, name: "TP-LINK FC111-AB Media Converter" },
+            { id: 281, name: "Stop Kontak 3Lb +kabel 3m Black Panther" },
+            { id: 282, name: "Stop Kontak 4Lb +kabel 5m Black Panther" },
+            { id: 283, name: "Stop Kontak Broco Inbow" },
+            { id: 284, name: "Stop Kontak Arde Broco Outbow" },
+            { id: 285, name: "Stop Kontak Outdoor Broco 2151" },
+            { id: 286, name: "Stop Kontak Clipsal Outbow" },
+            { id: 287, name: "Stop Kontak 3Lb +kabel 3m Rubytech" },
+            { id: 288, name: "Stop Kontak 3Lb +kabel 5m Rubytech" },
+            { id: 289, name: "Stop Kontak 5Lb +kabel 3m Rubytech" },
+            { id: 290, name: "Stop Kontak 5Lb +kabel 5m Rubytech" },
+            { id: 291, name: "Stop Kontak 3Lb +kabel 3m Bright G" },
+            { id: 292, name: "Stop Kontak 3Lb +kabel 5m Bright G" },
+            { id: 293, name: "Stop Kontak 4Lb +kabel 3m Bright G" },
+            { id: 294, name: "Stop Kontak 4Lb +kabel 5m Bright G" },
+            { id: 295, name: "Stop Kontak Clipsal Inbow" },
+            { id: 296, name: "Stop Kontak Masko Inbow" },
+            { id: 297, name: "Stop Kontak Masko Outbow" },
+            { id: 298, name: "Stop Kontak Myvo 4Lb + kabel 3 Yard" },
+            { id: 299, name: "Stop Kontak Masko Inbow T-1550" },
+            { id: 300, name: "Stop Kontak Masko Inbow V-350" },
+            { id: 301, name: "Stop Kontak Bright Inbow BG8611" },
+            { id: 302, name: "Stop Kontak Shukaku 2 lb" },
+            { id: 303, name: "Stop Kontak Shukaku 4 lb" },
+            { id: 304, name: "Stop Kontak Shukaku 5 lb" },
+            { id: 305, name: "Stop Kontak Simon Inbow E3 301687" },
+            { id: 306, name: "Stop Kontak Simon Inbow Multy + saklar" },
+            { id: 307, name: "Stop Kontak Uticon 1 lubang" },
+            { id: 308, name: "Stop Kontak Uticon 2 lubang" },
+            { id: 309, name: "Stop Kontak Uticon 4 lubang" },
+            { id: 310, name: "Stop Kontak Uticon 5 lubang" },
+            { id: 311, name: "Stop Kontak Uticon 6 lubang" },
+            { id: 312, name: "Stop Kontak Aksara 2 lubang" },
+            { id: 313, name: "Stop Kontak Aksara 3 lubang" },
+            { id: 314, name: "Stop Kontak Visalux Lubang 3+Saklar" },
+            { id: 315, name: "Stop Kontak Visalux Lubang 5+Saklar" },
+            { id: 316, name: "Stop Kontak Tanam + Frame" },
+            { id: 317, name: "Stop Kontak 2 Lb Rubytech" },
+            { id: 318, name: "Stop Kontak 4 Lb Rubytech" },
+            { id: 319, name: "Stop Kontak+kabel 3 LB Bright G" },
+            { id: 320, name: "Wall/Face Plate+Modular RJ45 K281" },
+            { id: 321, name: "Wall/Face Plate+Modular RJ45 K282" },
+            { id: 322, name: "Wall/Face plate TV K-257" },
+            { id: 323, name: "Wall/Face plate +Modular Rj11 K-259" },
+            { id: 324, name: "Wall/Face Plate+Modular RJ45 N581" },
+            { id: 325, name: "Wall/Face Plate + modular1 Lubang NYK" },
+            { id: 326, name: "Wall/Face Plate+ modular 2 Lubang NYK" },
+            { id: 327, name: "Wall/Face plate 2 Lubang AMP" },
+            { id: 328, name: "Wall Plate+Modular VGA" },
+            { id: 329, name: "Wall/Face Plate HDMI" },
+            { id: 330, name: "Wall/Face plate VGA" },
+            { id: 331, name: "Tang Krimping / Skun HSC8" },
+            { id: 332, name: "Tang Krimping HT-2810R" },
+            { id: 333, name: "Tang Crone HT-3141" },
+            { id: 334, name: "Tang Krimping Double HT-500R" },
+            { id: 335, name: "Tang Krimping Double HT-546R" },
+            { id: 336, name: "Tang Kupas Kabel CT-1107" },
+            { id: 337, name: "Tang Krimping Tools GT-81" },
+            { id: 338, name: "Tang Krimping Gain Tech GT86" },
+            { id: 339, name: "Tang Krimping Double TTK-506" },
+            { id: 340, name: "Tang Krimping Vention Black" },
+            { id: 341, name: "Tang Krimping Ugreen 10952" },
+            { id: 342, name: "Tang Krimping Ugreen 70683" },
+            { id: 343, name: "Tang Potong Tekiro 4.5\"" },
+            { id: 344, name: "Tang Potong Tekiro 6\"" },
+            { id: 345, name: "Tang Kombinasi Tekiro 7\"" },
+            { id: 346, name: "Tang cucut Tekiro 4.5\"" },
+            { id: 347, name: "Tang cucut Tekiro 6\"" },
+            { id: 348, name: "Tang Potong Masko 6\"" },
+            { id: 349, name: "Tang Kombinasi Masko 6\"" },
+            { id: 350, name: "Tang Kombinasi Masko 7\"" },
+            { id: 351, name: "Tang Lancip Masko 6\"" },
+            { id: 352, name: "Tang Ampere mini winer" },
+            { id: 353, name: "Tang Ampere / Clamp Meter ST181" },
+            { id: 354, name: "Tang Kupas Winer TL-9300" },
+            { id: 355, name: "Tang Potong Kecil" },
+            { id: 356, name: "Kabel Jack Akai/Mic Benji" },
+            { id: 357, name: "Kabel Jack Akai/Mic L Benji" },
+            { id: 358, name: "Kabel Jack XLR Female Benji" },
+            { id: 359, name: "Kabel Jack Akai/Mic Benji Stereo" },
+            { id: 360, name: "Kabel Jack AKAi Stereo Benji" },
+            { id: 361, name: "Kabel Jack Aux 3.5mm Benji" },
+            { id: 362, name: "Kabel Jack XLR Male Benji" },
+            { id: 363, name: "Obeng Set Jackly" },
+            { id: 364, name: "Obeng Set 36 in 1" },
+            { id: 365, name: "Obeng Set Power 9128" },
+            { id: 366, name: "Obeng testpen Muxindo 101 Kecil" },
+            { id: 367, name: "Obeng testpen Rocia 101 Kecil" },
+            { id: 368, name: "Obeng 4\" EV-7311 (+)" },
+            { id: 369, name: "Obeng 4\" EV-7312 (-)" },
+            { id: 370, name: "Obeng Masko 37100" },
+            { id: 371, name: "Obeng Set 31 in 1 TE-6036" },
+            { id: 372, name: "Obeng Set 45 in 1 6089" },
+            { id: 373, name: "Obeng Set 115 HP Full Set" },
+            { id: 374, name: "Obeng Viper 3306" },
+            { id: 375, name: "Obeng +/- USA" },
+            { id: 376, name: "Solder 40W Deko" },
+            { id: 377, name: "Solder 40W Osmond" },
+            { id: 378, name: "Solder 60W Deko" },
+            { id: 379, name: "Solder 30W Deko" },
+            { id: 380, name: "Solder 40W Spardio AKI09" },
+            { id: 381, name: "Solder 30W Biasa" },
+            { id: 382, name: "Solder 30W Std" },
+            { id: 383, name: "Solder 40W Biasa" },
+            { id: 384, name: "Solder 40W Std" },
+            { id: 385, name: "Solder Kayu" },
+            { id: 386, name: "Solder Tembak Spardio" },
+            { id: 387, name: "Solder Visero 40 watt Kayu" },
+            { id: 388, name: "Solder Gun Myfair MF-789" },
+            { id: 389, name: "Solder Myfair 40W" },
+            { id: 390, name: "Solder 150Watt" },
+            { id: 391, name: "Solder 200Watt" },
+            { id: 392, name: "Solder SR CS840" },
+            { id: 393, name: "Solder SR" },
+            { id: 394, name: "Solder Deko 93" },
+            { id: 395, name: "Solder Tembak Dekko 938N" },
+            { id: 396, name: "Solder Masda 40 Watt" },
+            { id: 397, name: "Solder Gun Masda 938" },
+            { id: 398, name: "Solder 40 Watt Winner" },
+            { id: 399, name: "Volt Meter Mini+Frame" },
+            { id: 400, name: "Volt Meter Mini" },
+            { id: 401, name: "Multimeter Digital DM850" },
+            { id: 402, name: "Multimeter Digital Viver DT830B" },
+            { id: 403, name: "Multimeter Digital Deton DT830" },
+            { id: 404, name: "Multimeter Digital 9205A" },
+            { id: 405, name: "Multimeter Digital MAS830L" },
+            { id: 406, name: "Multimeter Digital DT860" },
+            { id: 407, name: "Multimeter Digital mini" },
+            { id: 408, name: "Multimeter Viver mini" },
+            { id: 409, name: "Multimeter MF" },
+            { id: 410, name: "Multimeter WN" },
+            { id: 411, name: "Multimeter Spardio" },
+            { id: 412, name: "Multimeter Digital Spardio SP9908A" },
+            { id: 413, name: "Multimeter Digital SZ01" },
+            { id: 414, name: "Multimeter Digital SZ08" },
+            { id: 415, name: "Multimeter Joker MT-360TRN" },
+            { id: 416, name: "Multimeter Bobatest Smart BB-123" },
+            { id: 417, name: "Multimeter Digital Victor" },
+            { id: 418, name: "Digital Clamp MeterKlop DT266" },
+            { id: 419, name: "Digital Clamp Meter DM" },
+            { id: 420, name: "Digital Clamp Meter MT" },
+            { id: 421, name: "MonitorLCD 22\" Proview PRO-LED22A-2K" },
+            { id: 422, name: "Monitor Dahua 24\" DHI-LM24B200S" },
+            { id: 423, name: "Monitor Dahua 24\" DHI-LM24-B201S" },
+            { id: 424, name: "Monitor Aevision 19\" AE-LED19A-2K" },
+            { id: 425, name: "Monitor COOCAA 32\" TV" },
+            { id: 426, name: "Monitor Dahua 19\" DHI-LM19-A202F" },
+            { id: 427, name: "Monitor Dahua 19\" DHI-LM19-A202H" },
+            { id: 428, name: "Monitor Dahua 19\" DHI-LM19B200" },
+            { id: 429, name: "Monitor Dahua 20\" LM-20A-200S" },
+            { id: 430, name: "Monitor Dahua DHI-LM22-B200" },
+            { id: 431, name: "Monitor Dahua DHI-LM22-B200S-V2" },
+            { id: 432, name: "Monitor Dahua DHI-LM22-B201S" },
+            { id: 433, name: "Monitor Dahua 22\" DHI-L22-H200" },
+            { id: 434, name: "Monitor Hikvision DS-D5019" },
+            { id: 435, name: "Monitor Hikvision D5022FN00 22\"" },
+            { id: 436, name: "Monitor Hikvision DS-D5022F2-1V2S + Audio" },
+            { id: 437, name: "Monitor Hikvision DS-D5022F2-1P2" },
+            { id: 438, name: "Monitor Hikvision DS-D5022FN" },
+            { id: 439, name: "Monitor Hikvision DS-D5022QE" },
+            { id: 440, name: "Monitor Hikvision D5109S0-P0 19\"" },
+            { id: 441, name: "Monitor HiView 22\" HV-22RX100+ Speaker" },
+            { id: 442, name: "Monitor INFORCE 16\" 1560MW" },
+            { id: 443, name: "Monitor INFORCE 2400AT" },
+            { id: 444, name: "Monitor Inforce 19\" 1950NH" },
+            { id: 445, name: "Monitor Infinity 22\" IA-NM228CS+Audio" },
+            { id: 446, name: "Monitor Lenovo LE-22E-40 FHD 75HZ" },
+            { id: 447, name: "Monitor Lenovo D24-40 FHD 75HZ" },
+            { id: 448, name: "Monitor LG 19M38" },
+            { id: 449, name: "Monitor LG 19M38-B HDMI" },
+            { id: 450, name: "MONITOR LG 19M38L-B (HD HDMI/VGA)" },
+            { id: 451, name: "Monitor LG 20MK400A-B" },
+            { id: 452, name: "Monitor LG 20MK400H HDMI" },
+            { id: 453, name: "Monitor LG 22MK400" },
+            { id: 454, name: "Monitor LG 22MK430" },
+            { id: 455, name: "Monitor LG 22MP410-B" },
+            { id: 456, name: "Monitor LG 24MK430H-B 24 HDMI - IPS" },
+            { id: 457, name: "Monitor LG 24MP400-B 24 HDMI - IPS" },
+            { id: 458, name: "Monitor Iware 16\" HDMI+VGA" },
+            { id: 459, name: "Monitor Megavision 19\"" },
+            { id: 460, name: "Monitor XiAOMI MI A22 FHD 75HZ" },
+            { id: 461, name: "Monitor XiAOMI TV A2 HD 32\"" },
+            { id: 462, name: "Monitor XiAOMI MI 1C 24\" nIPS 75HZ HDMi VGA" },
+            { id: 463, name: "Monitor XiAOMI MI A271 FHD IPS100HZ" },
+            { id: 464, name: "Monitor XiAOMI TV A FHD 2K 43\"" },
+            { id: 465, name: "Monitor SPC 19\" SM19 HD" },
+            { id: 466, name: "Monitor Samsung 32\" TV" },
+            { id: 467, name: "Monitor Dahua 43\" TV 4K" },
+            { id: 468, name: "Monitor Samsung LS19A330" },
+            { id: 469, name: "Monitor Proview 19\" SM-LED19A" },
+            { id: 470, name: "Monitor Proview 22\" SM-LED22A" },
+            { id: 471, name: "Monitor Tagvision 19\" TAG-LED19A" },
+            { id: 472, name: "Monitor Uniarch 22\" MT-22L" },
+            { id: 473, name: "Monitor Dahua 1080p 43\"" }
             ];
 
         
@@ -1147,7 +1463,7 @@
                 // Jika tidak ada pesanan, tampilkan pesan kosong
                 const emptyMessage = document.createElement('div');
                 emptyMessage.className = 'empty-order';
-                emptyMessage.textContent = 'list pesanan puyung"';
+                emptyMessage.textContent = '';
                 orderItemsContainer.appendChild(emptyMessage);
             } else {
                 // Jika ada pesanan, tampilkan item
@@ -1201,43 +1517,55 @@
         }
         
         // Fungsi untuk menangani perubahan kuantitas (baik dari tombol maupun input)
-        function handleQuantityChange(productId, newValue) {
-            newValue = Math.max(0, newValue);
-            orders[productId] = newValue;
-            
-            // Jika jumlah menjadi 0, hapus dari pesanan
-            if (orders[productId] === 0) {
-                delete orders[productId];
-            }
-            
-            // Perbarui input di tampilan produk
-            const productInput = document.querySelector(`.quantity-input[data-id="${productId}"]`);
-            if (productInput) {
-                productInput.value = newValue;
-            }
-            
-            // Perbarui ringkasan pesanan
-            updateOrderSummary();
+        function handleQuantityChange(productId, newValue, fromProductList = false) {
+    newValue = Math.max(0, newValue);
+    const oldValue = orders[productId] || 0;
+    orders[productId] = newValue;
+    
+    if (orders[productId] === 0) {
+        delete orders[productId];
+    }
+    
+    const productInput = document.querySelector(`.quantity-input[data-id="${productId}"]`);
+    if (productInput) {
+        productInput.value = newValue;
+    }
+    
+    updateOrderSummary();
+    
+    // Hanya tampilkan toast jika perubahan berasal dari daftar produk
+    if (fromProductList && newValue !== oldValue) {
+        const product = products.find(p => p.id == productId);
+        let message = '';
+        
+        if (newValue > oldValue) {
+            message = `Ditambah: ${product.name} (${newValue})`;
+        } else if (newValue < oldValue) {
+            message = `Dikurangi: ${product.name} (${newValue})`;
         }
         
+        if (message) {
+            showToast(message);
+        }
+    }
+}
+
+
         // Fungsi untuk mengirim pesanan ke WhatsApp
         function sendOrderToWhatsApp() {
             if (totalItems === 0) {
-                // Menggunakan alert biasa tanpa judul domain
-                alert('jangin list malu, nu puyung ape kal kirim mbok??');
+                showToast('List pesanan nu puyung');
                 return;
             }
             
             const message = generateOrderText();
             
-            // Encode pesan untuk URL WhatsApp
-            const encodedMessage = encodeURIComponent(message);
-            
-            // Nomor WhatsApp tujuan
-            const phoneNumber = "6285955202282";
-            
-            // Buka WhatsApp dengan pesan
-            window.open(`https://wa.me/${phoneNumber}?text=${encodedMessage}`, '_blank');
+            navigator.clipboard.writeText(message).then(() => {
+                
+            }).catch(err => {
+                console.error('Gagal menyalin: ', err);
+                showToast('Gagal menyalin list pesanan');
+            });
         }
         
         // Fungsi untuk menyalin list pesanan ke clipboard
@@ -1270,12 +1598,13 @@
         
         // Fungsi untuk reset semua pesanan
         function resetAllOrders() {
-            // Jika tidak ada pesanan, langsung return tanpa menampilkan modal
+            // Jika tidak ada pesanan, tampilkan notifikasi dan return
             if (totalItems === 0) {
+                showToast('List pesanan nu puyung'); // Notifikasi sama seperti di fungsi lainnya
                 return;
             }
             
-            // Tampilkan modal konfirmasi
+            // Jika ada pesanan, tampilkan modal konfirmasi
             document.getElementById('confirmModal').style.display = 'flex';
         }
         
@@ -1294,6 +1623,8 @@
             
             // Sembunyikan modal
             document.getElementById('confirmModal').style.display = 'none';
+
+            
         }
         
         // Fungsi untuk toggle tampilan
@@ -1354,26 +1685,29 @@
             
             // Delegasi event untuk tombol plus/minus dan input di seluruh dokumen
             document.addEventListener('click', (e) => {
-                // Tangani tombol plus/minus baik di produk maupun ringkasan pesanan
-                if (e.target.classList.contains('plus') || e.target.classList.contains('minus') || 
-                    e.target.closest('.plus') || e.target.closest('.minus')) {
-                    
-                    const button = e.target.classList.contains('plus') || e.target.classList.contains('minus') ? 
-                                 e.target : e.target.closest('.plus') || e.target.closest('.minus');
-                    
-                    const productId = button.dataset.id;
-                    const input = button.closest('.quantity-control, .order-item-control').querySelector('input');
-                    let value = parseInt(input.value) || 0;
-                    
-                    if (button.classList.contains('plus') || button.closest('.plus')) {
-                        value++;
-                    } else {
-                        value = Math.max(0, value - 1);
-                    }
-                    
-                    handleQuantityChange(productId, value);
-                }
-            });
+    if (e.target.classList.contains('plus') || e.target.classList.contains('minus') || 
+        e.target.closest('.plus') || e.target.closest('.minus')) {
+        
+        const button = e.target.classList.contains('plus') || e.target.classList.contains('minus') ? 
+                     e.target : e.target.closest('.plus') || e.target.closest('.minus');
+        
+        // Cek apakah tombol berasal dari daftar produk (bukan ringkasan pesanan)
+        const isFromProductList = button.closest('#products-container') !== null;
+        
+        const productId = button.dataset.id;
+        const input = button.closest('.quantity-control, .order-item-control').querySelector('input');
+        let value = parseInt(input.value) || 0;
+        
+        if (button.classList.contains('plus') || button.closest('.plus')) {
+            value++;
+        } else {
+            value = Math.max(0, value - 1);
+        }
+        
+        // Tambahkan parameter isFromProductList
+        handleQuantityChange(productId, value, isFromProductList);
+    }
+});
             
             // Delegasi event untuk input manual di produk
             document.addEventListener('change', (e) => {
@@ -1436,34 +1770,42 @@
 
     function printOrderToPDF() {
         if (totalItems === 0) {
-            showToast('List pesanan masih kosong');
+            showToast('List pesanan nu puyung');
             return;
         }
 
         const doc = new jsPDF();
         const hariIndonesia = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
         const today = new Date();
-        const namaHari = hariIndonesia[today.getDay()];
+        const pageWidth = doc.internal.pageSize.getWidth();
+        const margin = 15;
+
+        // Format Tanggal dan Jam
+        const hari = hariIndonesia[today.getDay()];
         const tanggal = today.toLocaleDateString('id-ID');
+        const jam = today.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
 
-        // Latar putih seluruh halaman
-        doc.setFillColor(255, 255, 255);
-        doc.rect(0, 0, 210, 297, 'F');
-
-        // Pengaturan spasi konsisten
-        const spacing = 8; // Jarak seragam 8mm antara semua elemen
+        // Background
+        doc.setFillColor(245, 248, 250);
+        doc.rect(0, 0, pageWidth, doc.internal.pageSize.getHeight(), 'F');
 
         // Judul
-        doc.setFontSize(16);
+        doc.setFontSize(18);
         doc.setFont('helvetica', 'bold');
-        doc.text('LIST PESANAN ELECTRA KAPAL', 20, 15);
+        doc.setTextColor(30, 70, 120);
+        doc.text('ELECTRA KAPAL ORDER LIST', pageWidth / 2, 20, { align: 'center' });
 
-        // Tanggal dan hari
+        // Garis bawah judul
+        doc.setDrawColor(50, 100, 150);
+        doc.setLineWidth(0.5);
+        doc.line(margin, 25, pageWidth - margin, 25);
+
+        // Informasi tanggal dan jam
         doc.setFontSize(10);
-        doc.setFont('helvetica', 'normal');
-        doc.text(`Tanggal: ${tanggal}`, 20, 15 + spacing);
-        doc.text(`Hari: ${namaHari}`, 190, 15 + spacing, { align: 'right' });
+        doc.setTextColor(100);
+        doc.text(`${tanggal}, ${hari}, ${jam}`, margin, 35);
 
+        // Tabel pesanan (dipertahankan seperti sebelumnya)
         const headers = [['No', 'Nama Barang', 'Jumlah']];
         const data = [];
         let no = 1;
@@ -1477,53 +1819,72 @@
             }
         }
 
-        // Tabel dengan garis hitam
         doc.autoTable({
-            startY: 15 + (spacing * 2), // Jarak spacing dari tanggal
+            startY: 45,
             head: headers,
             body: data,
-            theme: 'grid',
+            theme: 'striped',
             headStyles: {
-                fillColor: [255, 255, 255],
-                textColor: 0,
+                fillColor: [30, 70, 120],
+                textColor: 255,
                 fontStyle: 'bold',
                 halign: 'center',
-                lineColor: [0, 0, 0],
                 lineWidth: 0.3
             },
             bodyStyles: {
-                fillColor: [255, 255, 255],
-                textColor: 0,
-                lineColor: [0, 0, 0],
-                lineWidth: 0.2
+                textColor: [50, 50, 50],
+                lineWidth: 0.1,
+                cellPadding: 4
+            },
+            alternateRowStyles: {
+                fillColor: [245, 248, 250]
             },
             styles: {
                 fontSize: 10,
-                cellPadding: 3,
+                cellPadding: 4,
                 valign: 'middle',
-                lineColor: [0, 0, 0],
-                lineWidth: 0.2
+                lineColor: [200, 200, 200],
+                lineWidth: 0.2,
+                font: 'helvetica'
             },
             columnStyles: {
-                0: { cellWidth: 12, halign: 'center' },
-                1: { cellWidth: 140 },
-                2: { cellWidth: 18, halign: 'center' }
+                0: { 
+                    cellWidth: 15, 
+                    halign: 'center',
+                    fillColor: [245, 248, 250]
+                },
+                1: { 
+                    cellWidth: 'auto',
+                    fontStyle: 'bold'
+                },
+                2: { 
+                    cellWidth: 25, 
+                    halign: 'center',
+                    fillColor: [245, 248, 250]
+                }
             },
-            margin: { left: 20, right: 20 }
+            margin: { left: margin, right: margin }
         });
 
-        // Total barang dengan spasi yang sama
-        const finalY = doc.lastAutoTable.finalY + spacing;
-        doc.setFontSize(10);
-        doc.setFont('helvetica', 'normal');
-        doc.text(`Total Barang: ${totalBarang}`, 190, finalY, { align: 'right' });
+        // Total Barang
+        const finalY = doc.lastAutoTable.finalY + 10;
+        doc.setFontSize(11);
+        doc.setFont('helvetica', 'bold');
+        doc.setTextColor(30, 70, 120);
+        doc.text(`Total Barang: ${totalBarang}`, pageWidth - margin, finalY, { align: 'right' });
 
-        doc.save(`Pesanan_Electra_Kapal_${today.toISOString().slice(0, 10)}.pdf`);
+        // Garis penutup
+        doc.setDrawColor(30, 70, 120);
+        doc.setLineWidth(0.3);
+        doc.line(margin, finalY + 5, pageWidth - margin, finalY + 5);
+
+        // Simpan PDF
+        const timestamp = today.toISOString().slice(0, 10).replace(/-/g, '');
+        doc.save(`Pesanan_Electra_Kapal_${timestamp}.pdf`);
     }
 
     document.getElementById('print-order').addEventListener('click', printOrderToPDF);
 </script>
-
 
 
 </body>
