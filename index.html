@@ -28,7 +28,7 @@
 }
 
 .favorite-btn.active {
-    color: #e74c3c;
+    color: #84463f;
 }
 
 .dark-mode .favorite-btn {
@@ -36,7 +36,7 @@
 }
 
 .dark-mode .favorite-btn.active {
-    color: #e74c3c;
+    color: #84463f;
 }
         /* Style untuk tombol favorit di toggle view */
 .toggle-view {
@@ -46,7 +46,7 @@
     gap: 10px;
     position: sticky;
     top: 90px;
-    background: #f5f5f5;
+    background: none !important;
     padding: 10px 0;
     z-index: 90;
 }
@@ -57,23 +57,23 @@
 
 #show-favorites {
     background: #f5f5f5;
-    color: #e74c3c;
-    border: 1px solid #e74c3c;
+    color: #84463f;
+    border: 1px solid #84463f;
 }
 
 .dark-mode #show-favorites {
     background: #1e1e1e;
-    color: #e74c3c;
-    border-color: #e74c3c;
+    color: #84463f;
+    border-color: #84463f;
 }
 
 #show-favorites.active {
-    background: #e74c3c;
+    background: #84463f;
     color: white;
 }
 
 .dark-mode #show-favorites.active {
-    background: #c0392b;
+    background: #84463f;
 }
 
 #show-favorites:hover {
@@ -679,7 +679,7 @@
             }
             
             #products-view {
-                margin-top: -25px; /* Geser lebih kecil di mobile */
+                margin-top: -40px; /* Geser lebih kecil di mobile */
             }
             
             .order-summary {
@@ -693,7 +693,7 @@
                 max-height: 190vh; /* Tinggi maksimum lebih besar */
                 height: auto; /* Biarkan tinggi menyesuaikan konten */
                 /* Tambahkan properti baru: */
-                top: 215px; /* Pastikan tidak ada top yang mengganggu */
+                top: 230px !important; /* Pastikan tidak ada top yang mengganggu */
                 transform: none;
             }
             
@@ -866,8 +866,8 @@
     <div class="toggle-view">
         <div class="toggle-view">
             <button class="toggle-btn active" id="show-products"><i class="fas fa-box-open"></i> Produk</button>
-            <button class="toggle-btn" id="show-orders"><i class="fas fa-shopping-cart"></i> DBH (<span id="item-count">0</span>)</button>
-            <button class="toggle-btn" id="show-favorites"><i class="fas fa-bookmark"></i> </button>
+            <button class="toggle-btn" id="show-orders"><i class="fas fa-shopping-cart"></i> daftar barang (<span id="item-count">0</span>)</button>
+            <button class="toggle-btn" id="show-favorites"><i class="fas fa-bookmark"></i></button>
         </div>
     </div> 
     
@@ -1614,10 +1614,10 @@ function generateOrderText() {
     const isActive = this.classList.contains('active');
     
     if (isActive) {
-        this.innerHTML = '<i class="fas fa-bookmark"></i> Favorit';
+        this.innerHTML = '<i class="fas fa-bookmark"></i> ';
         filterFavorites();
     } else {
-        this.innerHTML = '<i class="far fa-bookmark"></i> Favorit';
+        this.innerHTML = '<i class="far fa-bookmark"></i> ';
         filterProducts();
     }
 });
