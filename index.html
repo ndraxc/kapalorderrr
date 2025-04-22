@@ -38,7 +38,6 @@
 .dark-mode .favorite-btn.active {
     color: #e74c3c;
 }
-
         /* Style untuk tombol favorit di toggle view */
 .toggle-view {
     display: flex;
@@ -868,7 +867,7 @@
         <div class="toggle-view">
             <button class="toggle-btn active" id="show-products"><i class="fas fa-box-open"></i> Produk</button>
             <button class="toggle-btn" id="show-orders"><i class="fas fa-shopping-cart"></i> DBH (<span id="item-count">0</span>)</button>
-            <button class="toggle-btn" id="show-favorites"><i class="far fa-heart"></i> Favorit</button>
+            <button class="toggle-btn" id="show-favorites"><i class="fas fa-bookmark"></i> Favorit</button>
         </div>
     </div> 
     
@@ -1465,17 +1464,16 @@
         const isFavorite = favorites[product.id] || false;
         
         productCard.innerHTML = `
-            <button class="favorite-btn ${isFavorite ? 'active' : ''}" data-id="${product.id}">
-                <i class="fas fa-heart"></i>
-            </button>
-            <div class="product-name">${product.name}</div>
-            <div class="quantity-control">
-                <button class="quantity-btn minus" data-id="${product.id}"><i class="fas fa-minus"></i></button>
-                <input type="number" class="quantity-input" data-id="${product.id}" value="0" min="0">
-                <button class="quantity-btn plus" data-id="${product.id}"><i class="fas fa-plus"></i></button>
-            </div>
-        `;
-        
+    <button class="favorite-btn ${isFavorite ? 'active' : ''}" data-id="${product.id}">
+        <i class="fas fa-bookmark"></i>
+    </button>
+    <div class="product-name">${product.name}</div>
+    <div class="quantity-control">
+        <button class="quantity-btn minus" data-id="${product.id}"><i class="fas fa-minus"></i></button>
+        <input type="number" class="quantity-input" data-id="${product.id}" value="0" min="0">
+        <button class="quantity-btn plus" data-id="${product.id}"><i class="fas fa-plus"></i></button>
+    </div>
+`;
         container.appendChild(productCard);
     });
 }
@@ -1616,11 +1614,11 @@ function generateOrderText() {
     const isActive = this.classList.contains('active');
     
     if (isActive) {
-        this.innerHTML = '<i class="fas fa-heart"></i> Favorit';
+        this.innerHTML = '<i class="fas fa-bookmark"></i> Favorit';
         filterFavorites();
     } else {
-        this.innerHTML = '<i class="far fa-heart"></i> Favorit';
-        filterProducts(); // Kembali ke tampilan normal
+        this.innerHTML = '<i class="far fa-bookmark"></i> Favorit';
+        filterProducts();
     }
 });
 
@@ -1786,7 +1784,7 @@ function sendOrderToWhatsApp() {
     const favoriteBtn = document.querySelector(`.favorite-btn[data-id="${productId}"]`);
     if (favoriteBtn) {
         favoriteBtn.classList.toggle('active', favorites[productId]);
-        favoriteBtn.querySelector('i').className = favorites[productId] ? 'fas fa-heart' : 'far fa-heart';
+        favoriteBtn.querySelector('i').className = favorites[productId] ? 'fas fa-bookmark' : 'far fa-bookmark';
     }
     
     // Jika sedang dalam mode tampilan favorit, perbarui tampilan
