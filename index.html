@@ -17,6 +17,31 @@
             padding: 0;
             transition: background-color 0.3s, color 0.3s;
         }
+        .order-item {
+    cursor: grab;
+    transition: transform 0.2s;
+    user-select: none;
+}
+
+.order-item.dragging {
+    opacity: 0.5;
+    transform: scale(1.02);
+    background-color: rgba(37, 211, 102, 0.1);
+}
+
+.dark-mode .order-item.dragging {
+    background-color: rgba(37, 211, 102, 0.2);
+}
+@media (max-width: 600px) {
+    .order-item {
+        -webkit-tap-highlight-color: transparent;
+        touch-action: none;
+    }
+}
+
+.order-item:active {
+    cursor: grabbing;
+}
         .print-btn {
     background: #e74c3c;
     color: white;
@@ -1358,6 +1383,216 @@
 
             ];
 
+          // Variabel global untuk drag and drop
+let draggedItem = null;
+let draggedIndex = null;
+let initialY = 0;
+let currentY = 0;
+
+// Fungsi untuk menginisialisasi drag and drop
+function initDragAndDrop() {
+    const orderItemsContainer = document.getElementById('order-items');
+    
+    // Event untuk desktop (mouse)
+    orderItemsContainer.addEventListener('dragstart', handleDragStart);
+    orderItemsContainer.addEventListener('dragover', handleDragOver);
+    orderItemsContainer.addEventListener('dragend', handleDragEnd);
+    
+    // Event untuk mobile (touch)
+    orderItemsContainer.addEventListener('touchstart', handleTouchStart, { passive: false });
+    orderItemsContainer.addEventListener('touchmove', handleTouchMove, { passive: false });
+    orderItemsContainer.addEventListener('touchend', handleTouchEnd);
+}
+
+// Handler untuk drag start (desktop)
+function handleDragStart(e) {
+    if (e.target.classList.contains('order-item')) {
+        draggedItem = e.target;
+        draggedIndex = Array.from(draggedItem.parentNode.children).indexOf(draggedItem);
+        draggedItem.classList.add('dragging');
+        e.dataTransfer.setData('text/plain', draggedIndex);
+        
+        // Untuk Firefox
+        e.dataTransfer.setData('text/html', draggedItem.innerHTML);
+    }
+}
+
+// Handler untuk drag over (desktop)
+function handleDragOver(e) {
+    e.preventDefault();
+    if (!draggedItem) return;
+    
+    const afterElement = getDragAfterElement(e.currentTarget, e.clientY);
+    const currentItem = document.querySelector('.dragging');
+    
+    if (afterElement == null) {
+        e.currentTarget.appendChild(currentItem);
+    } else {
+        e.currentTarget.insertBefore(currentItem, afterElement);
+    }
+}
+
+// Handler untuk drag end (desktop)
+function handleDragEnd() {
+    if (draggedItem) {
+        draggedItem.classList.remove('dragging');
+        updateOrderAfterDrag();
+        draggedItem = null;
+    }
+}
+
+// Handler untuk touch start (mobile)
+function handleTouchStart(e) {
+    if (e.target.classList.contains('order-item') || e.target.closest('.order-item')) {
+        const item = e.target.classList.contains('order-item') ? e.target : e.target.closest('.order-item');
+        draggedItem = item;
+        draggedIndex = Array.from(draggedItem.parentNode.children).indexOf(draggedItem);
+        draggedItem.classList.add('dragging');
+        initialY = e.touches[0].clientY;
+        currentY = initialY;
+        
+        // Prevent default untuk menghindari scroll
+        e.preventDefault();
+    }
+}
+
+// Handler untuk touch move (mobile)
+function handleTouchMove(e) {
+    if (!draggedItem) return;
+    
+    e.preventDefault();
+    const y = e.touches[0].clientY;
+    const deltaY = y - currentY;
+    currentY = y;
+    
+    // Geser elemen secara visual
+    draggedItem.style.transform = `translateY(${deltaY}px)`;
+    
+    // Cari posisi baru
+    const container = draggedItem.parentNode;
+    const afterElement = getDragAfterElement(container, y);
+    
+    if (afterElement == null) {
+        container.appendChild(draggedItem);
+    } else {
+        container.insertBefore(draggedItem, afterElement);
+    }
+}
+
+// Handler untuk touch end (mobile)
+function handleTouchEnd() {
+    if (draggedItem) {
+        draggedItem.classList.remove('dragging');
+        draggedItem.style.transform = '';
+        updateOrderAfterDrag();
+        draggedItem = null;
+    }
+}
+
+// Fungsi untuk menentukan posisi setelah drag
+function getDragAfterElement(container, y) {
+    const draggableElements = [...container.querySelectorAll('.order-item:not(.dragging)')];
+    
+    return draggableElements.reduce((closest, child) => {
+        const box = child.getBoundingClientRect();
+        const offset = y - box.top - box.height / 2;
+        
+        if (offset < 0 && offset > closest.offset) {
+            return { offset: offset, element: child };
+        } else {
+            return closest;
+        }
+    }, { offset: Number.NEGATIVE_INFINITY }).element;
+}
+
+// Fungsi untuk memperbarui urutan pesanan setelah drag
+function updateOrderAfterDrag() {
+    if (!draggedItem || draggedIndex === null) return;
+    
+    const orderItemsContainer = document.getElementById('order-items');
+    const newIndex = Array.from(orderItemsContainer.children).indexOf(draggedItem);
+    
+    // Jika posisi berubah
+    if (newIndex !== draggedIndex) {
+        // Buat array dari produk yang dipesan dalam urutan DOM
+        const orderedProducts = [];
+        const items = orderItemsContainer.querySelectorAll('.order-item');
+        
+        items.forEach(item => {
+            const input = item.querySelector('.order-quantity-input');
+            if (input) {
+                const productId = input.dataset.id;
+                const quantity = parseInt(input.value) || 0;
+                orderedProducts.push({
+                    id: productId,
+                    quantity: quantity
+                });
+            }
+        });
+        
+        // Buat ulang objek orders dengan urutan baru
+        const newOrders = {};
+        orderedProducts.forEach(item => {
+            newOrders[item.id] = item.quantity;
+        });
+        
+        orders = newOrders;
+        
+        // Perbarui tampilan input produk
+        updateProductInputs();
+        
+        // Trigger custom event untuk update UI
+        const event = new Event('orderUpdated');
+        document.dispatchEvent(event);
+    }
+    
+    draggedItem = null;
+    draggedIndex = null;
+}
+
+// Fungsi untuk membuat item pesanan bisa di-drag
+function makeOrderItemsDraggable() {
+    const orderItems = document.querySelectorAll('.order-item');
+    orderItems.forEach(item => {
+        item.setAttribute('draggable', 'true');
+    });
+}
+
+// Panggil fungsi inisialisasi saat DOM siap
+document.addEventListener('DOMContentLoaded', () => {
+    // Load produk dan inisialisasi drag and drop
+    loadProducts();
+    initDragAndDrop();
+    
+    // Buat item draggable setiap kali order diupdate
+    document.addEventListener('orderUpdated', function() {
+        makeOrderItemsDraggable();
+    });
+});
+
+
+
+// Fungsi untuk menangani perubahan kuantitas
+function handleQuantityChange(productId, newValue, fromProductList = false) {
+    newValue = Math.max(0, newValue);
+    const oldValue = orders[productId] || 0;
+    orders[productId] = newValue;
+    
+    if (orders[productId] === 0) {
+        delete orders[productId];
+    }
+    
+    const productInput = document.querySelector(`.quantity-input[data-id="${productId}"]`);
+    if (productInput) {
+        productInput.value = newValue;
+    }
+    
+    updateOrderSummary();
+    
+    // Trigger update untuk drag and drop
+    const event = new Event('orderUpdated');
+    document.dispatchEvent(event);
+}
         
         // Variabel untuk menyimpan pesanan
         let orders = {};
@@ -1502,7 +1737,9 @@ function generateOrderText() {
                         `;
                         
                         orderItemsContainer.appendChild(orderItem);
-                        itemNumber++; // Tingkatkan nomor urut
+                        itemNumber++; // Tingkatkan nomor 
+                        
+                        makeOrderItemsDraggable();
                     }
                 }
             }
@@ -1674,6 +1911,33 @@ function sendOrderToWhatsApp() {
         }
         
         // Event listeners
+        // Tambahkan event listener untuk touchstart pada tombol plus/minus
+document.addEventListener('touchstart', (e) => {
+    if (e.target.closest('.plus') || e.target.closest('.minus')) {
+        e.preventDefault(); // Mencegah perilaku default touch
+        const button = e.target.closest('.plus') || e.target.closest('.minus');
+        const productId = button.dataset.id;
+        
+        // Temukan input terkait
+        const controlContainer = button.closest('.quantity-control, .order-item-control');
+        const input = controlContainer.querySelector('input');
+        
+        let value = parseInt(input.value) || 0;
+        
+        if (button.classList.contains('plus') || button.closest('.plus')) {
+            value++;
+        } else {
+            value = Math.max(0, value - 1);
+        }
+        
+        input.value = value;
+        
+        // Trigger change event untuk update orders
+        const event = new Event('change', { bubbles: true });
+        input.dispatchEvent(event);
+    }
+}, { passive: false });
+
         document.addEventListener('DOMContentLoaded', () => {
             loadProducts();
             
@@ -1694,19 +1958,17 @@ function sendOrderToWhatsApp() {
                 searchInput.focus();
             });
             
-            // Delegasi event untuk tombol plus/minus dan input di seluruh dokumen
-            document.addEventListener('click', (e) => {
-    if (e.target.classList.contains('plus') || e.target.classList.contains('minus') || 
-        e.target.closest('.plus') || e.target.closest('.minus')) {
-        
-        const button = e.target.classList.contains('plus') || e.target.classList.contains('minus') ? 
-                     e.target : e.target.closest('.plus') || e.target.closest('.minus');
-        
-        // Cek apakah tombol berasal dari daftar produk (bukan ringkasan pesanan)
-        const isFromProductList = button.closest('#products-container') !== null;
-        
+          // Delegasi event untuk tombol plus/minus dan input di seluruh dokumen
+document.addEventListener('click', (e) => {
+    // Handle tombol plus/minus baik di produk maupun order summary
+    if (e.target.closest('.plus') || e.target.closest('.minus')) {
+        const button = e.target.closest('.plus') || e.target.closest('.minus');
         const productId = button.dataset.id;
-        const input = button.closest('.quantity-control, .order-item-control').querySelector('input');
+        
+        // Temukan input terkait - cari di parent terdekat yang memiliki class quantity-control atau order-item-control
+        const controlContainer = button.closest('.quantity-control, .order-item-control');
+        const input = controlContainer.querySelector('input');
+        
         let value = parseInt(input.value) || 0;
         
         if (button.classList.contains('plus') || button.closest('.plus')) {
@@ -1715,19 +1977,34 @@ function sendOrderToWhatsApp() {
             value = Math.max(0, value - 1);
         }
         
-        // Tambahkan parameter isFromProductList
-        handleQuantityChange(productId, value, isFromProductList);
+        input.value = value;
+        
+        // Trigger change event untuk update orders
+        const event = new Event('change', { bubbles: true });
+        input.dispatchEvent(event);
     }
 });
-            
-            // Delegasi event untuk input manual di produk
-            document.addEventListener('change', (e) => {
-                if (e.target.classList.contains('quantity-input')) {
-                    const productId = e.target.dataset.id;
-                    const value = parseInt(e.target.value) || 0;
-                    handleQuantityChange(productId, value);
-                }
-            });
+
+// Delegasi event untuk input manual baik di produk maupun order summary
+document.addEventListener('change', (e) => {
+    if (e.target.classList.contains('quantity-input') || e.target.classList.contains('order-quantity-input')) {
+        const productId = e.target.dataset.id;
+        const value = parseInt(e.target.value) || 0;
+        const sanitizedValue = Math.max(0, value);
+        e.target.value = sanitizedValue;
+        
+        // Update orders
+        if (sanitizedValue === 0) {
+            delete orders[productId];
+        } else {
+            orders[productId] = sanitizedValue;
+        }
+        
+        // Update tampilan
+        updateProductInputs();
+        updateOrderSummary();
+    }
+});
             
             // Kirim ke WhatsApp
             document.getElementById('send-order').addEventListener('click', sendOrderToWhatsApp);
@@ -1775,6 +2052,8 @@ function sendOrderToWhatsApp() {
     </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+
+
 
 <script>
     const { jsPDF } = window.jspdf;
