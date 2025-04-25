@@ -17,6 +17,44 @@
             padding: 0;
             transition: background-color 0.3s, color 0.3s;
         }
+        /* Background dengan overlay */
+body {
+    background-image: url('https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    position: relative;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: -2;
+}
+
+/* Transparansi untuk kartu */
+.product-card, 
+.order-summary, 
+.no-results {
+    background-color: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(5px);
+}
+
+.dark-mode .product-card,
+.dark-mode .order-summary,
+.dark-mode .no-results {
+    background-color: rgba(30, 30, 30, 0.9);
+}
+
+/* Perbaikan untuk dark mode overlay */
+.dark-mode::before {
+    background: rgba(0, 0, 0, 0.7); /* Lebih gelap di dark mode */
+}
         .search-suggestions {
     position: absolute;
     top: 100%;
@@ -126,7 +164,7 @@
     justify-content: center;
     margin-bottom: 15px;
     gap: 10px;
-   
+    position: sticky;
     top: 90px;
     background: none !important;
     padding: 10px 0;
@@ -267,7 +305,7 @@
         }
         
         .search-container {
-         
+           position: sticky;
            top: 0;
            z-index: 100;
            background: #f5f5f5;
@@ -2261,3 +2299,4 @@ document.getElementById('clear-search').addEventListener('click', function() {
     }</script>
 </body>
 </html>
+
