@@ -2261,6 +2261,56 @@ document.getElementById('clear-search').addEventListener('click', function() {
         suggestions.forEach(s => s.classList.remove('active'));
         suggestions[index].classList.add('active');
     }</script>
+
+<!-- Tambahkan modal ini di HTML Anda -->
+<div id="exitConfirmModal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <div class="modal-title">Peringatan!</div>
+        <p>Anda memiliki pesanan yang belum dikirim. Yakin ingin meninggalkan halaman?</p>
+        <div class="modal-buttons">
+            <button class="modal-btn modal-btn-cancel" id="stayOnPage">Tetap di Halaman</button>
+            <button class="modal-btn modal-btn-confirm" id="leavePage">Tetap Keluar</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Variabel untuk menyimpan URL tujuan
+    let targetUrl = '';
+    
+    // Event listener untuk semua link yang mungkin mengarah keluar
+    document.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', function(e) {
+            if (calculateOrderedItems() > 0) {
+                e.preventDefault();
+                targetUrl = this.href;
+                document.getElementById('exitConfirmModal').style.display = 'flex';
+            }
+        });
+    });
+    
+    // Tombol tetap di halaman
+    document.getElementById('stayOnPage').addEventListener('click', function() {
+        document.getElementById('exitConfirmModal').style.display = 'none';
+        targetUrl = '';
+    });
+    
+    // Tombol tetap keluar
+    document.getElementById('leavePage').addEventListener('click', function() {
+        if (targetUrl) {
+            window.location.href = targetUrl;
+        }
+    });
+    
+    // Tetap pertahankan beforeunload untuk kasus refresh/tutup tab
+    window.addEventListener('beforeunload', function (e) {
+        if (calculateOrderedItems() > 0) {
+            e.preventDefault();
+            e.returnValue = '';
+        }
+    });
+</script>
+    
 </body>
 </html>
 
